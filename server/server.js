@@ -96,43 +96,32 @@ const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/imovies_db
 // Persistent MongoMemoryServer instance in module scope to prevent GC process termination
 let mongodInstance = null;
 
+
+
 const startServer = async () => {
   try {
-    let connected = false;
-    try {
-      console.log(`[Database] Attempting connection to MongoDB at: ${MONGO_URI}`);
-      await mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 3000 });
-      console.log('[Database] Connected to external MongoDB successfully.');
-      connected = true;
-    } catch (dbErr) {
-      console.warn('[Database] External MongoDB connection failed. Starting embedded MongoMemoryServer...');
-      const { MongoMemoryServer } = require('mongodb-memory-server');
-      mongodInstance = await MongoMemoryServer.create();
-      global.__mongodInstance = mongodInstance;
-      const memoryUri = mongodInstance.getUri();
-      console.log(`[Database] MongoMemoryServer active at: ${memoryUri}`);
-      await mongoose.connect(memoryUri);
-      console.log('[Database] Connected to in-memory MongoDB.');
-      connected = true;
-    }
+    console.log(`[Database] Attempting connection to MongoDB at: ${MONGO_URI}`);
+    await mongoose.connect(MONGO_URI, {
+      serverSelectionTimeoutMS: 5000,
+    });
+    console.log('[Database] Connected to external MongoDB successfully.');
 
-    if (connected) {
-      // Seed initial mock data
-      await seedInitialData();
+    // Seed initial mock data
+    await seedInitialData();
 
-      // Start seat lock background cleanup service
-      startCleanupJob(io, 10000);
+    // Start seat lock background cleanup service
+    startCleanupJob(io, 10000);
 
-      // Start node-cron reminders
-      startReminderJob();
+    // Start node-cron reminders
+    startReminderJob();
 
-      server.listen(PORT, '0.0.0.0', () => {
-        console.log(`===============================================`);
-        console.log(`🍿 iMovies API Server running on port ${PORT}`);
-        console.log(`📡 WebSocket ready on port ${PORT}`);
-        console.log(`===============================================`);
-      });
-    }
+    server.listen(PORT, '0.0.0.0', () => {
+      console.log('====================================');
+      console.log(`🎬 iMovies API Server running on port ${PORT}`);
+      console.log(`🔌 WebSocket ready on port ${PORT}`);
+      console.log('====================================');
+    });
+
   } catch (err) {
     console.error('[Fatal Server Startup Error]:', err);
     process.exit(1);
