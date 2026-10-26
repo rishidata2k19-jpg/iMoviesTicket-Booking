@@ -1,0 +1,201 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Calendar, ArrowLeft, Clock, Film, MapPin } from 'lucide-react';
+import api from '../utils/api';
+import { toast } from 'react-toastify';
+import Loader from '../components/Loader';
+
+const AddShow = () => {
+  const navigate = useNavigate();
+  const [movies, setMovies] = useState([]);
+  const [theatres, setTheatres] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [formData, setFormData] = useState({
+    movieId: '',
+    theatreId: '',
+    theatreName: '',
+    showDate: new Date().toISOString().split('T')[0],
+    showTime: '07:30 PM',
+    screenType: '4K Dolby Atmos',
+  });
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [movieRes, theatreRes] = await Promise.all([
+          api.get('/movie'),
+          api.get('/theatre'),
+        ]);
+
+        if (movieRes.data.success && movieRes.data.movies.length > 0) {
+          setMovies(movieRes.data.movies);
+          setFormData((prev) => ({ ...prev, movieId: movieRes.data.movies[0]._id }));
+        }
+
+        if (theatreRes.data.success && theatreRes.data.theatres.length > 0) {
+          setTheatres(theatreRes.data.theatres);
+          setFormData((prev) => ({
+            ...prev,
+            theatreId: theatreRes.data.theatres[0].theatreId,
+            theatreName: theatreRes.data.theatres[0].theatreName,
+          }));
+        }
+      } catch (err) {
+        toast.error('Failed to load movies or theatres.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleTheatreChange = (e) => {
+    const chosenTheatre = theatres.find((t) => t.theatreId === e.target.value);
+    setFormData({
+      ...formData,
+      theatreId: e.target.value,
+      theatreName: chosenTheatre ? chosenTheatre.theatreName : '',
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.movieId || !formData.theatreName || !formData.showDate || !formData.showTime) {
+      toast.error('Please complete all show details.');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await api.post('/shows', formData);
+      if (res.data.success) {
+        toast.success('Show scheduled successfully!');
+        navigate('/admin');
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to schedule show.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (loading) return <Loader message="Loading available theatres and film catalog..." />;
+
+  return (
+    <div className="min-h-screen pb-24 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <div className="mb-6 flex items-center space-x-4 pb-4 border-b border-slate-800">
+        <Link
+          to="/admin"
+          className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </Link>
+        <div>
+          <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">Showtime Manager</span>
+          <h1 className="text-2xl font-black text-white">Schedule New Movie Showtime</h1>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl space-y-6">
+        <div className="space-y-4">
+          {/* Movie Selection */}
+          <div>
+            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5 flex items-center space-x-1.5">
+              <Film className="w-4 h-4 text-red-500" />
+              <span>Select Movie *</span>
+            </label>
+            <select
+              value={formData.movieId}
+              onChange={(e) => setFormData({ ...formData, movieId: e.target.value })}
+              className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-400"
+            >
+              {movies.map((m) => (
+                <option key={m._id} value={m._id}>
+                  {m.movieName} ({m.language}) - {m.duration}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Theatre Selection */}
+          <div>
+            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5 flex items-center space-x-1.5">
+              <MapPin className="w-4 h-4 text-cyan-400" />
+              <span>Select Cinema Theatre *</span>
+            </label>
+            <select
+              value={formData.theatreId}
+              onChange={handleTheatreChange}
+              className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-400"
+            >
+              {theatres.map((t) => (
+                <option key={t.theatreId} value={t.theatreId}>
+                  {t.theatreName} - {t.location}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Date & Time */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5 flex items-center space-x-1.5">
+                <Calendar className="w-4 h-4 text-amber-400" />
+                <span>Show Date *</span>
+              </label>
+              <input
+                type="date"
+                required
+                value={formData.showDate}
+                onChange={(e) => setFormData({ ...formData, showDate: e.target.value })}
+                className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-400"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5 flex items-center space-x-1.5">
+                <Clock className="w-4 h-4 text-amber-400" />
+                <span>Show Time Slot *</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.showTime}
+                onChange={(e) => setFormData({ ...formData, showTime: e.target.value })}
+                placeholder="e.g. 10:30 AM, 02:00 PM, 07:30 PM"
+                className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-400"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Screen Format / Technology</label>
+            <input
+              type="text"
+              value={formData.screenType}
+              onChange={(e) => setFormData({ ...formData, screenType: e.target.value })}
+              placeholder="IMAX 3D, Dolby Atmos, RealD 3D, 4DX"
+              className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-400"
+            />
+          </div>
+        </div>
+
+        <div className="pt-4 border-t border-slate-800 flex justify-end">
+          <button
+            type="submit"
+            disabled={submitting}
+            className="px-8 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-sm shadow-xl shadow-amber-500/20 transition-all disabled:opacity-50"
+          >
+            {submitting ? 'Generating Seat Layout...' : 'Publish Scheduled Showtime'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default AddShow;

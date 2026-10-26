@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Production & Build Outputs
+dist/
+client/dist/
+build/
+
+# Environment Variables & Secrets
+.env
+server/.env
+*.env.local
+
+# Temporary Directories & Debug Profiles
+temp_*
+temp_chrome_*
+.vite/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS & Editor Metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

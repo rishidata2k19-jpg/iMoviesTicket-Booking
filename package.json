@@ -1,0 +1,20 @@
+{
+  "name": "imovies-movie-ticket-booking-platform",
+  "version": "1.0.0",
+  "description": "iMovies - Full-Stack Movie Ticket Booking Web Application",
+  "scripts": {
+    "server": "cd server && node server.js",
+    "client": "cd client && npm run dev",
+    "build": "cd client && npm run build"
+  },
+  "keywords": [
+    "movie-ticket-booking",
+    "react",
+    "express",
+    "mongodb",
+    "socketio",
+    "seat-locking"
+  ],
+  "author": "Antigravity",
+  "license": "ISC"
+}
