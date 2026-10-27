@@ -3,23 +3,63 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "functions": {
-    "api/index.js": {
+    "api/*.js": {
       "includeFiles": "server/**",
       "maxDuration": 15
     }
   },
   "rewrites": [
     {
+      "source": "/api/auth/:match*",
+      "destination": "/api/auth"
+    },
+    {
+      "source": "/api/movie/:match*",
+      "destination": "/api/movie"
+    },
+    {
+      "source": "/api/theatre/:match*",
+      "destination": "/api/theatre"
+    },
+    {
+      "source": "/api/shows/:match*",
+      "destination": "/api/shows"
+    },
+    {
+      "source": "/api/bookings/:match*",
+      "destination": "/api/bookings"
+    },
+    {
+      "source": "/api/favorite/:match*",
+      "destination": "/api/favorite"
+    },
+    {
+      "source": "/api/review/:match*",
+      "destination": "/api/review"
+    },
+    {
+      "source": "/api/payment/:match*",
+      "destination": "/api/payment"
+    },
+    {
+      "source": "/api/admin/:match*",
+      "destination": "/api/admin"
+    },
+    {
+      "source": "/api/health",
+      "destination": "/api/health"
+    },
+    {
       "source": "/api/:path*",
-      "destination": "/api"
+      "destination": "/api/index"
     },
     {
       "source": "/api/(.*)",
-      "destination": "/api"
+      "destination": "/api/index"
     },
     {
       "source": "/api",
-      "destination": "/api"
+      "destination": "/api/index"
     },
     {
       "source": "/((?!api).*)",
