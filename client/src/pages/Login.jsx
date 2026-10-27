@@ -10,8 +10,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  const isRemoteDeploymentMissingApi = !import.meta.env.VITE_API_URL && typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,11 +18,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (isRemoteDeploymentMissingApi) {
-      toast.error('Backend URL not configured! Please add VITE_API_URL in your Vercel/hosting environment variables and redeploy.');
-      return;
-    }
 
     if (!email || !password) {
       toast.error('Please enter both email and password.');
@@ -88,21 +81,6 @@ const Login = () => {
               : 'Enter your credentials to book tickets and view your watchlist'}
           </p>
         </div>
-
-        {isRemoteDeploymentMissingApi && (
-          <div className="p-3.5 mb-6 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs flex items-start space-x-2.5">
-            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-            <div className="space-y-1">
-              <p className="font-semibold text-amber-300">Backend API Not Connected</p>
-              <p className="text-slate-300 leading-relaxed">
-                Your frontend is deployed on Vercel, but <code className="bg-slate-950 px-1 py-0.5 rounded text-amber-300 font-mono">VITE_API_URL</code> has not been added to your Vercel Environment Variables.
-              </p>
-              <p className="text-slate-400">
-                Go to <b>Vercel Settings ➔ Environment Variables</b>, add <code className="text-white">VITE_API_URL = https://your-backend.onrender.com</code>, and click <b>Redeploy</b>.
-              </p>
-            </div>
-          </div>
-        )}
 
         {/* Tab switch */}
         <div className="grid grid-cols-2 p-1 rounded-xl bg-slate-950 border border-slate-800 mb-6 text-xs font-semibold">
