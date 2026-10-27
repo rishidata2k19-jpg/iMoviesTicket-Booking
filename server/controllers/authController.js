@@ -8,8 +8,31 @@ const Movie = require('../models/movieModel');
 const Show = require('../models/showModel');
 const { JWT_SECRET } = require('../middlewares/fetchUser');
 
-// Helper to check MongoDB connection status before handling requests
-const checkDbConnection = (res) => {
+// Helper to check and ensure MongoDB Atlas connection before handling requests
+const checkDbConnection = async (res) => {
+  if (mongoose.connection.readyState === 1) return true;
+
+  // If connecting (readyState === 2), wait for it to establish
+  if (mongoose.connection.readyState === 2) {
+    for (let i = 0; i < 20; i++) {
+      await new Promise((r) => setTimeout(r, 200));
+      if (mongoose.connection.readyState === 1) return true;
+    }
+  }
+
+  // If disconnected (readyState === 0), connect to MongoDB Atlas
+  if (mongoose.connection.readyState === 0) {
+    try {
+      const uri =
+        process.env.MONGO_URI ||
+        'mongodb+srv://rishidata2k19_db_user:d3KfjFuJxXHL32GE@cluster0.xndy3pu.mongodb.net/imovies_db?retryWrites=true&w=majority';
+      await mongoose.connect(uri, { serverSelectionTimeoutMS: 6000 });
+      if (mongoose.connection.readyState === 1) return true;
+    } catch (err) {
+      console.warn('[DB Auto-Reconnect]:', err.message);
+    }
+  }
+
   if (mongoose.connection.readyState !== 1) {
     res.status(503).json({
       success: false,
@@ -29,7 +52,7 @@ const generateToken = (payload) => {
 // 1. User Register
 exports.registerUser = async (req, res) => {
   try {
-    if (!checkDbConnection(res)) return;
+    if (!(await checkDbConnection(res))) return;
 
     const { username, email, password } = req.body;
     const cleanUsername = (username || '').trim();
@@ -113,7 +136,7 @@ exports.registerUser = async (req, res) => {
 // 2. User Login
 exports.loginUser = async (req, res) => {
   try {
-    if (!checkDbConnection(res)) return;
+    if (!(await checkDbConnection(res))) return;
 
     const { email, username, password } = req.body;
     const identifier = (email || username || '').trim();
@@ -165,7 +188,7 @@ exports.loginUser = async (req, res) => {
 // 3. Admin Register
 exports.registerAdmin = async (req, res) => {
   try {
-    if (!checkDbConnection(res)) return;
+    if (!(await checkDbConnection(res))) return;
 
     const { username, email, password } = req.body;
     const cleanUsername = (username || '').trim();
@@ -234,7 +257,7 @@ exports.registerAdmin = async (req, res) => {
 // 4. Admin Login
 exports.loginAdmin = async (req, res) => {
   try {
-    if (!checkDbConnection(res)) return;
+    if (!(await checkDbConnection(res))) return;
 
     const { email, username, password } = req.body;
     const identifier = (email || username || '').trim();

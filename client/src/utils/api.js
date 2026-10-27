@@ -8,7 +8,13 @@ import axios from 'axios';
  */
 export const getApiBaseURL = () => {
   const envUrl = import.meta.env.VITE_API_URL;
-  if (envUrl && typeof envUrl === 'string' && envUrl.trim()) {
+  if (
+    envUrl &&
+    typeof envUrl === 'string' &&
+    envUrl.trim() &&
+    !envUrl.includes('your-backend') &&
+    !envUrl.includes('example.com')
+  ) {
     const trimmed = envUrl.trim().replace(/\/+$/, '');
     return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
   }
@@ -17,7 +23,13 @@ export const getApiBaseURL = () => {
 
 export const getBackendURL = () => {
   const envUrl = import.meta.env.VITE_API_URL;
-  if (envUrl && typeof envUrl === 'string' && envUrl.trim()) {
+  if (
+    envUrl &&
+    typeof envUrl === 'string' &&
+    envUrl.trim() &&
+    !envUrl.includes('your-backend') &&
+    !envUrl.includes('example.com')
+  ) {
     return envUrl.trim().replace(/\/api\/?$/, '').replace(/\/+$/, '');
   }
   return window.location.origin;
