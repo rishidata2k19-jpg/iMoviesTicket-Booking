@@ -110,43 +110,44 @@ const Home = () => {
     <div className="min-h-screen pb-20">
       {/* Featured Backdrop Hero Banner */}
       {featuredMovie && !search && selectedGenre === 'All' && (
-        <div className="relative h-[65vh] w-full overflow-hidden bg-slate-950 mb-10">
+        <div className="relative h-[65vh] w-full overflow-hidden bg-slate-950 mb-8 sm:mb-10 shadow-lg">
           <img
             src={featuredMovie.bannerUrl || featuredMovie.posterUrl}
             alt={featuredMovie.movieName}
-            className="w-full h-full object-cover object-center filter brightness-60"
+            className="w-full h-full object-cover object-center filter brightness-65"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#080c14] via-[#080c14]/40 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#080c14] via-[#080c14]/60 to-transparent" />
+          {/* Gradients blending to background */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-50 dark:from-[#080c14] via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
 
-          <div className="absolute bottom-12 left-0 right-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-2xl space-y-4">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-600/90 text-white text-xs font-bold uppercase tracking-wider shadow-lg">
+          <div className="absolute bottom-10 left-0 right-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-2xl space-y-3.5">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-600 text-white text-xs font-bold uppercase tracking-wider shadow-lg">
                 <Flame className="w-3.5 h-3.5" />
-                <span>Now Playing • Live TMDB Market Feed</span>
+                <span>Now Playing • Live Cinema Network</span>
               </div>
 
-              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight drop-shadow-md">
                 {featuredMovie.movieName}
               </h1>
 
-              <p className="text-sm sm:text-base text-slate-300 line-clamp-2 leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-200 line-clamp-2 leading-relaxed drop-shadow">
                 {featuredMovie.description}
               </p>
 
-              <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-300 pt-1">
-                <span className="flex items-center space-x-1 bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-full font-bold border border-amber-500/30">
+              <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-white pt-1">
+                <span className="flex items-center space-x-1 bg-amber-500/30 text-amber-300 backdrop-blur-md px-2.5 py-1 rounded-full font-bold border border-amber-500/40">
                   <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                   <span>{featuredMovie.rating} / 10</span>
                 </span>
-                <span className="flex items-center space-x-1 bg-slate-900/80 px-2.5 py-1 rounded-full border border-slate-700">
-                  <Clock className="w-3.5 h-3.5 text-slate-400" />
+                <span className="flex items-center space-x-1 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
+                  <Clock className="w-3.5 h-3.5 text-slate-300" />
                   <span>{featuredMovie.duration}</span>
                 </span>
-                <span className="bg-slate-900/80 px-2.5 py-1 rounded-full border border-slate-700">
+                <span className="bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
                   {featuredMovie.certification}
                 </span>
-                <span className="bg-slate-900/80 px-2.5 py-1 rounded-full border border-slate-700">
+                <span className="bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
                   {featuredMovie.language}
                 </span>
               </div>
@@ -162,7 +163,7 @@ const Home = () => {
 
                 <Link
                   to={`/moviedetails/${featuredMovie._id}`}
-                  className="px-5 py-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-white font-semibold text-sm border border-slate-700 transition-colors flex items-center space-x-1.5"
+                  className="px-5 py-3 rounded-xl bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold text-sm border border-white/30 transition-colors flex items-center space-x-1.5"
                 >
                   <span>More Details</span>
                   <ChevronRight className="w-4 h-4" />
@@ -174,19 +175,19 @@ const Home = () => {
       )}
 
       {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         {/* Search & Filter Bar */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-5 mb-8 backdrop-blur-md shadow-xl space-y-4">
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 mb-8 shadow-sm dark:shadow-xl space-y-4 transition-colors">
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
             {/* Live Feed Toggle Tabs */}
-            <div className="flex items-center p-1 bg-slate-950 border border-slate-800 rounded-xl">
+            <div className="flex items-center p-1 bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl">
               <button
                 type="button"
                 onClick={() => setFeedType('now_playing')}
                 className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   feedType === 'now_playing'
                     ? 'bg-red-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-white'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
@@ -199,7 +200,7 @@ const Home = () => {
                 className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   feedType === 'popular'
                     ? 'bg-red-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-white'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 <TrendingUp className="w-3.5 h-3.5" />
@@ -208,9 +209,9 @@ const Home = () => {
             </div>
 
             {/* Live TMDB API Indicator */}
-            <div className="flex items-center space-x-2 text-xs font-semibold text-slate-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-              <span className="text-slate-300">Live TMDB API Feed</span>
+            <div className="flex items-center space-x-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+              <span className="text-slate-700 dark:text-slate-300">Live Cinema Feed</span>
             </div>
           </div>
 
@@ -221,8 +222,8 @@ const Home = () => {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search TMDB market catalog by title, keyword..."
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                placeholder="Search movies by title, genre, keyword..."
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
               />
             </div>
 
@@ -230,15 +231,15 @@ const Home = () => {
               type="submit"
               className="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition-colors flex items-center justify-center space-x-1.5 shadow-md shadow-red-600/20"
             >
-              <span>Search TMDB</span>
+              <span>Search Movies</span>
             </button>
           </form>
 
           {/* Genre and Language Filter Chips */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-2 border-t border-slate-800/80 text-xs">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-2 border-t border-slate-200 dark:border-slate-800/80 text-xs">
             {/* Genre list */}
             <div className="flex items-center space-x-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
-              <span className="text-slate-400 font-semibold flex items-center space-x-1 flex-shrink-0">
+              <span className="text-slate-500 dark:text-slate-400 font-semibold flex items-center space-x-1 flex-shrink-0">
                 <SlidersHorizontal className="w-3.5 h-3.5 text-red-500" />
                 <span>Genre:</span>
               </span>
@@ -250,7 +251,7 @@ const Home = () => {
                   className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap transition-all ${
                     selectedGenre === g
                       ? 'bg-red-600 text-white shadow-sm'
-                      : 'bg-slate-950 text-slate-300 hover:bg-slate-800 border border-slate-800'
+                      : 'bg-slate-100 dark:bg-slate-950 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800'
                   }`}
                 >
                   {g}
@@ -260,11 +261,11 @@ const Home = () => {
 
             {/* Language dropdown */}
             <div className="flex items-center space-x-2 flex-shrink-0">
-              <span className="text-slate-400 font-semibold">Language:</span>
+              <span className="text-slate-500 dark:text-slate-400 font-semibold">Language:</span>
               <select
                 value={selectedLanguage}
                 onChange={(e) => setSelectedLanguage(e.target.value)}
-                className="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-red-500"
+                className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-red-500"
               >
                 {LANGUAGES.map((lang) => (
                   <option key={lang} value={lang}>
@@ -279,15 +280,15 @@ const Home = () => {
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-2">
           <div className="flex items-center space-x-2.5">
-            <Film className="w-5 h-5 text-red-500" />
-            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            <Film className="w-5 h-5 text-red-600" />
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
               {feedType === 'popular' ? 'Popular Worldwide Releases' : 'Now Showing in Theatres'}
             </h2>
-            <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold">
-              TMDB Live
+            <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[10px] font-bold">
+              Live Feed
             </span>
           </div>
-          <span className="text-xs text-slate-400 font-medium">
+          <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             Showing {movies.length} {movies.length === 1 ? 'movie' : 'movies'}
           </span>
         </div>
@@ -296,17 +297,17 @@ const Home = () => {
         {loading ? (
           <Loader message="Synchronizing live movie catalog from TMDB..." />
         ) : movies.length === 0 ? (
-          <div className="text-center py-20 bg-slate-900/30 rounded-2xl border border-slate-800">
-            <Film className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-            <h3 className="text-lg font-bold text-white">No movies match your filters</h3>
-            <p className="text-xs text-slate-400 mt-1">Try resetting your search query or selecting "All" genres.</p>
+          <div className="text-center py-20 bg-white dark:bg-slate-900/30 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <Film className="w-12 h-12 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">No movies match your filters</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Try resetting your search query or selecting "All" genres.</p>
             <button
               onClick={() => {
                 setSearch('');
                 setSelectedGenre('All');
                 setSelectedLanguage('All');
               }}
-              className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-semibold"
+              className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-semibold shadow-sm"
             >
               Reset Filters
             </button>
@@ -319,10 +320,10 @@ const Home = () => {
               return (
                 <div
                   key={movie._id || movie.tmdbId}
-                  className="group relative rounded-2xl overflow-hidden bg-slate-900/60 border border-slate-800/80 hover:border-red-500/50 transition-all duration-300 flex flex-col shadow-lg hover:shadow-red-500/10 hover:-translate-y-1"
+                  className="group relative rounded-2xl overflow-hidden bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 hover:border-red-500/50 transition-all duration-300 flex flex-col shadow-sm hover:shadow-xl dark:shadow-md dark:hover:shadow-red-500/10 hover:-translate-y-1"
                 >
                   {/* Poster Thumbnail */}
-                  <div className="relative aspect-[2/3] overflow-hidden bg-slate-950">
+                  <div className="relative aspect-[2/3] overflow-hidden bg-slate-900">
                     <img
                       src={movie.posterUrl}
                       alt={movie.movieName}
@@ -353,10 +354,10 @@ const Home = () => {
                     <div className="absolute bottom-3 left-3 flex items-center space-x-1.5 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-full border border-amber-500/30 text-amber-400 text-xs font-bold">
                       <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                       <span>{movie.rating}</span>
-                      <span className="text-[10px] text-slate-400 font-normal">({movie.votesCount || 100}+)</span>
+                      <span className="text-[10px] text-slate-300 font-normal">({movie.votesCount || 100}+)</span>
                     </div>
 
-                    <div className="absolute bottom-3 right-3 text-xs text-slate-300 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-full border border-slate-700">
+                    <div className="absolute bottom-3 right-3 text-xs text-white bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
                       {movie.duration}
                     </div>
                   </div>
@@ -365,7 +366,7 @@ const Home = () => {
                   <div className="p-4 flex flex-col flex-1 justify-between">
                     <div>
                       <Link to={`/moviedetails/${movie._id}`}>
-                        <h3 className="text-base font-bold text-white hover:text-red-400 transition-colors line-clamp-1">
+                        <h3 className="text-base font-bold text-slate-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors line-clamp-1">
                           {movie.movieName}
                         </h3>
                       </Link>
@@ -374,20 +375,20 @@ const Home = () => {
                         {movie.genres?.slice(0, 3).map((genre) => (
                           <span
                             key={genre}
-                            className="text-[10px] px-2 py-0.5 rounded bg-slate-950 text-slate-300 border border-slate-800"
+                            className="text-[10px] px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800"
                           >
                             {genre}
                           </span>
                         ))}
                       </div>
 
-                      <p className="text-xs text-slate-400 mt-2.5 line-clamp-2">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mt-2.5 line-clamp-2 leading-relaxed">
                         {movie.description}
                       </p>
                     </div>
 
                     {/* Action buttons */}
-                    <div className="mt-4 pt-3 border-t border-slate-800 flex items-center space-x-2">
+                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center space-x-2">
                       <Link
                         to={`/movieshows/${movie._id}`}
                         className="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold text-center transition-colors shadow-md shadow-red-600/20 flex items-center justify-center space-x-1.5"
@@ -398,7 +399,7 @@ const Home = () => {
 
                       <Link
                         to={`/moviedetails/${movie._id}`}
-                        className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition-colors"
+                        className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 text-xs font-medium transition-colors"
                         title="View Synopsis & Reviews"
                       >
                         <ChevronRight className="w-4 h-4" />

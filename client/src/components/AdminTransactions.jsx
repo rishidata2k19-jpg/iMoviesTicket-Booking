@@ -100,55 +100,55 @@ const AdminTransactions = () => {
     <div className="space-y-6">
       {/* Metric Cards Banner */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl backdrop-blur-md">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
+        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-xl backdrop-blur-md">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
             <span>Gross Volume</span>
-            <DollarSign className="w-4 h-4 text-emerald-400" />
+            <DollarSign className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           </div>
-          <div className="text-2xl font-black text-white">
+          <div className="text-2xl font-black text-slate-900 dark:text-white">
             ₹{metrics?.completedVolume?.toLocaleString() || 0}
           </div>
-          <span className="text-[11px] text-emerald-400 font-medium">
+          <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
             {metrics?.counts?.completed || 0} completed payments
           </span>
         </div>
 
-        <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl backdrop-blur-md">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
+        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-xl backdrop-blur-md">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
             <span>Total Refunded</span>
-            <RotateCcw className="w-4 h-4 text-rose-400" />
+            <RotateCcw className="w-4 h-4 text-rose-600 dark:text-rose-400" />
           </div>
-          <div className="text-2xl font-black text-rose-400">
+          <div className="text-2xl font-black text-rose-600 dark:text-rose-400">
             ₹{metrics?.refundedVolume?.toLocaleString() || 0}
           </div>
-          <span className="text-[11px] text-rose-400 font-medium">
+          <span className="text-[11px] text-rose-600 dark:text-rose-400 font-medium">
             {metrics?.counts?.refunded || 0} refunded orders
           </span>
         </div>
 
-        <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl backdrop-blur-md">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
+        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-xl backdrop-blur-md">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
             <span>Gateway Mode</span>
-            <CreditCard className="w-4 h-4 text-cyan-400" />
+            <CreditCard className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
           </div>
-          <div className="text-2xl font-black text-cyan-400">Razorpay</div>
-          <span className="text-[11px] text-cyan-300 font-mono font-medium">Test Mode (rzp_test_...)</span>
+          <div className="text-2xl font-black text-cyan-600 dark:text-cyan-400">Razorpay</div>
+          <span className="text-[11px] text-cyan-700 dark:text-cyan-300 font-mono font-medium">Test Mode (rzp_test_...)</span>
         </div>
 
-        <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl backdrop-blur-md">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
+        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-xl backdrop-blur-md">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">
             <span>Total Bookings</span>
-            <Ticket className="w-4 h-4 text-amber-400" />
+            <Ticket className="w-4 h-4 text-amber-500 dark:text-amber-400" />
           </div>
-          <div className="text-2xl font-black text-white">
+          <div className="text-2xl font-black text-slate-900 dark:text-white">
             {metrics?.counts?.total || 0}
           </div>
-          <span className="text-[11px] text-slate-400 font-medium">All recorded transactions</span>
+          <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">All recorded transactions</span>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 shadow-xl backdrop-blur-md flex flex-col sm:flex-row gap-3">
+      <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm dark:shadow-xl backdrop-blur-md flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
           <input
@@ -156,7 +156,7 @@ const AdminTransactions = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by Payment ID, Order ID, Booking ID, or Customer Email..."
-            className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500"
+            className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-red-500"
           />
         </div>
 
@@ -165,7 +165,7 @@ const AdminTransactions = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-red-500"
+            className="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-red-500"
           >
             <option value="All">All Statuses ({transactions.length})</option>
             <option value="Completed">Completed Only</option>
@@ -177,7 +177,7 @@ const AdminTransactions = () => {
           <button
             type="button"
             onClick={fetchTransactions}
-            className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+            className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors shadow-sm"
             title="Refresh Transactions"
           >
             <RefreshCw className="w-4 h-4" />
@@ -186,13 +186,13 @@ const AdminTransactions = () => {
       </div>
 
       {/* Transactions Data Table */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl backdrop-blur-xl">
-        <div className="p-4 border-b border-slate-800 flex items-center justify-between">
+      <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm dark:shadow-2xl backdrop-blur-xl">
+        <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <CreditCard className="w-4 h-4 text-red-500" />
-            <h3 className="text-sm font-bold text-white">Razorpay Payment & Refund Ledger</h3>
+            <CreditCard className="w-4 h-4 text-red-600" />
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white">Razorpay Payment & Refund Ledger</h3>
           </div>
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-slate-500 dark:text-slate-400">
             Showing {filtered.length} of {transactions.length} records
           </span>
         </div>
@@ -200,7 +200,7 @@ const AdminTransactions = () => {
         <div className="overflow-x-auto min-w-0 w-full">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-bold bg-slate-950/60">
+              <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold bg-slate-50 dark:bg-slate-950/60">
                 <th className="py-3 px-4">Booking ID</th>
                 <th className="py-3 px-4">Razorpay Payment ID</th>
                 <th className="py-3 px-4">Customer</th>
@@ -212,7 +212,7 @@ const AdminTransactions = () => {
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
               {filtered.length === 0 ? (
                 <tr>
                   <td colSpan={9} className="py-12 text-center text-slate-500 italic">
@@ -326,46 +326,46 @@ const AdminTransactions = () => {
       {/* Confirmation Modal for Refund */}
       {selectedForRefund && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-5">
+          <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-2xl space-y-5">
             <div className="flex items-center space-x-3 text-rose-500">
-              <div className="p-3 rounded-2xl bg-rose-500/10 border border-rose-500/20">
-                <RotateCcw className="w-6 h-6" />
+              <div className="p-3 rounded-2xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20">
+                <RotateCcw className="w-6 h-6 text-rose-600 dark:text-rose-400" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-white">Authorize Razorpay Refund</h3>
-                <p className="text-xs text-slate-400">Initiate reversal & free booked seats</p>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Authorize Razorpay Refund</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Initiate reversal & free booked seats</p>
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 text-xs">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
               <div className="flex justify-between">
-                <span className="text-slate-400">Booking ID:</span>
-                <span className="font-mono font-bold text-white">{selectedForRefund.bookingId}</span>
+                <span className="text-slate-500 dark:text-slate-400">Booking ID:</span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white">{selectedForRefund.bookingId}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Payment ID:</span>
-                <span className="font-mono text-cyan-400">
+                <span className="text-slate-500 dark:text-slate-400">Payment ID:</span>
+                <span className="font-mono text-cyan-600 dark:text-cyan-400 font-bold">
                   {selectedForRefund.razorpayPaymentId || selectedForRefund.transactionId}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Customer:</span>
-                <span className="text-white">{selectedForRefund.userEmail}</span>
+                <span className="text-slate-500 dark:text-slate-400">Customer:</span>
+                <span className="text-slate-800 dark:text-white">{selectedForRefund.userEmail}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Movie & Seats:</span>
-                <span className="text-white">
+                <span className="text-slate-500 dark:text-slate-400">Movie & Seats:</span>
+                <span className="text-slate-800 dark:text-white">
                   {selectedForRefund.showDetails?.movieName || 'Movie'} ({Array.isArray(selectedForRefund.selectedSeats) ? selectedForRefund.selectedSeats.join(', ') : selectedForRefund.selectedSeats || 'N/A'})
                 </span>
               </div>
-              <div className="flex justify-between pt-2 border-t border-slate-800 font-bold text-sm text-white">
+              <div className="flex justify-between pt-2 border-t border-slate-200 dark:border-slate-800 font-bold text-sm text-slate-900 dark:text-white">
                 <span>Refund Amount:</span>
-                <span className="text-rose-400 font-black">₹{selectedForRefund.totalAmount}</span>
+                <span className="text-rose-600 dark:text-rose-400 font-black">₹{selectedForRefund.totalAmount}</span>
               </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs flex items-start space-x-2">
-              <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+            <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-800 dark:text-amber-400 text-xs flex items-start space-x-2">
+              <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
               <span>
                 Reversing this payment via Razorpay will update the status to <strong>Refunded</strong> and immediately release seats back to the public booking pool.
               </span>
@@ -376,7 +376,7 @@ const AdminTransactions = () => {
                 type="button"
                 onClick={() => setSelectedForRefund(null)}
                 disabled={refundProcessing}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold"
+                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold"
               >
                 Cancel
               </button>
@@ -384,7 +384,7 @@ const AdminTransactions = () => {
                 type="button"
                 onClick={handleProcessRefund}
                 disabled={refundProcessing}
-                className="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-lg shadow-rose-600/30 transition-all flex items-center space-x-1.5 disabled:opacity-50"
+                className="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-md shadow-rose-600/30 transition-all flex items-center space-x-1.5 disabled:opacity-50"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>{refundProcessing ? 'Processing Refund...' : 'Confirm Full Refund'}</span>

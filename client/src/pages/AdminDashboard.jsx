@@ -75,28 +75,28 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-8">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-800 gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-200 dark:border-slate-800 gap-4">
         <div>
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold uppercase tracking-wider mb-1 border border-amber-500/20">
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-xs font-bold uppercase tracking-wider mb-1 border border-amber-200 dark:border-amber-500/20 shadow-sm">
             <ShieldAlert className="w-3.5 h-3.5" />
             <span>Master Administration Console</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white">Platform Overview & Analytics</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">Platform Overview & Analytics</h1>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Real-time insight into box office revenue, registered moviegoers, active shows, and reservations.
           </p>
         </div>
 
         {/* View Switcher Tabs & Quick Actions */}
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center p-1 bg-slate-950 border border-slate-800 rounded-xl">
+          <div className="flex items-center p-1 bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl">
             <button
               type="button"
               onClick={() => setActiveTab('overview')}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 activeTab === 'overview'
                   ? 'bg-amber-500 text-slate-950 shadow-md'
-                  : 'text-slate-400 hover:text-white'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               Dashboard Stats
@@ -107,7 +107,7 @@ const AdminDashboard = () => {
               className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 activeTab === 'transactions'
                   ? 'bg-rose-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               <CreditCard className="w-3.5 h-3.5" />
@@ -124,7 +124,7 @@ const AdminDashboard = () => {
           </Link>
           <Link
             to="/addmovie"
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-slate-700 flex items-center space-x-1.5 transition-colors"
+            className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs border border-slate-200 dark:border-slate-700 flex items-center space-x-1.5 transition-colors shadow-sm"
           >
             <Film className="w-4 h-4" />
             <span>Add Movie</span>
@@ -140,55 +140,55 @@ const AdminDashboard = () => {
         <>
           {/* Metric Stat Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 backdrop-blur-md shadow-xl flex items-center space-x-4">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center flex-shrink-0 border border-emerald-500/20">
+            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 backdrop-blur-md shadow-sm dark:shadow-xl flex items-center space-x-4">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0 border border-emerald-200 dark:border-emerald-500/20">
                 <DollarSign className="w-7 h-7" />
               </div>
               <div>
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Gross Revenue</span>
-                <div className="text-2xl sm:text-3xl font-black text-white mt-1">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Gross Revenue</span>
+                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-1">
                   ₹{stats?.totalRevenue?.toLocaleString() || 0}
                 </div>
-                <span className="text-[11px] text-emerald-400 font-medium">Box office sales</span>
+                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">Box office sales</span>
               </div>
             </div>
 
-            <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 backdrop-blur-md shadow-xl flex items-center space-x-4">
-              <div className="w-14 h-14 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center flex-shrink-0 border border-red-500/20">
+            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 backdrop-blur-md shadow-sm dark:shadow-xl flex items-center space-x-4">
+              <div className="w-14 h-14 rounded-2xl bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-500 flex items-center justify-center flex-shrink-0 border border-red-200 dark:border-red-500/20">
                 <Ticket className="w-7 h-7" />
               </div>
               <div>
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Bookings</span>
-                <div className="text-2xl sm:text-3xl font-black text-white mt-1">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Bookings</span>
+                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-1">
                   {stats?.totalBookings || 0}
                 </div>
-                <span className="text-[11px] text-slate-400 font-medium">Tickets reserved</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Tickets reserved</span>
               </div>
             </div>
 
-            <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 backdrop-blur-md shadow-xl flex items-center space-x-4">
-              <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center flex-shrink-0 border border-cyan-500/20">
+            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 backdrop-blur-md shadow-sm dark:shadow-xl flex items-center space-x-4">
+              <div className="w-14 h-14 rounded-2xl bg-cyan-50 dark:bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center flex-shrink-0 border border-cyan-200 dark:border-cyan-500/20">
                 <Film className="w-7 h-7" />
               </div>
               <div>
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Movies</span>
-                <div className="text-2xl sm:text-3xl font-black text-white mt-1">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Active Movies</span>
+                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-1">
                   {stats?.totalMovies || 0}
                 </div>
-                <span className="text-[11px] text-cyan-400 font-medium">{stats?.totalShows || 0} active shows</span>
+                <span className="text-[11px] text-cyan-600 dark:text-cyan-400 font-medium">{stats?.totalShows || 0} active shows</span>
               </div>
             </div>
 
-            <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 backdrop-blur-md shadow-xl flex items-center space-x-4">
-              <div className="w-14 h-14 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center flex-shrink-0 border border-purple-500/20">
+            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 backdrop-blur-md shadow-sm dark:shadow-xl flex items-center space-x-4">
+              <div className="w-14 h-14 rounded-2xl bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center flex-shrink-0 border border-purple-200 dark:border-purple-500/20">
                 <Users className="w-7 h-7" />
               </div>
               <div>
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Registered Users</span>
-                <div className="text-2xl sm:text-3xl font-black text-white mt-1">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Registered Users</span>
+                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-1">
                   {stats?.totalUsers || 0}
                 </div>
-                <span className="text-[11px] text-purple-400 font-medium">{stats?.totalAdmins || 1} administrators</span>
+                <span className="text-[11px] text-purple-600 dark:text-purple-400 font-medium">{stats?.totalAdmins || 1} administrators</span>
               </div>
             </div>
           </div>
@@ -198,88 +198,88 @@ const AdminDashboard = () => {
             <button
               type="button"
               onClick={() => setActiveTab('transactions')}
-              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-rose-500/50 transition-all flex flex-col justify-between group text-left min-w-0"
+              className="p-4 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-rose-500/50 transition-all flex flex-col justify-between group text-left min-w-0 shadow-sm hover:shadow-md"
             >
               <CreditCard className="w-5 h-5 text-rose-500 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
               <div>
-                <h3 className="text-xs sm:text-sm font-bold text-white truncate">Refunds & Ledger</h3>
-                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">Razorpay Gateway</p>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">Refunds & Ledger</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Razorpay Gateway</p>
               </div>
             </button>
 
             <Link
               to="/addmovie"
-              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-red-500/50 transition-all flex flex-col justify-between group min-w-0"
+              className="p-4 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-red-500/50 transition-all flex flex-col justify-between group min-w-0 shadow-sm hover:shadow-md"
             >
-              <Film className="w-5 h-5 text-red-500 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
+              <Film className="w-5 h-5 text-red-600 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
               <div>
-                <h3 className="text-xs sm:text-sm font-bold text-white truncate">Add New Movie</h3>
-                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">Posters & cast</p>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">Add New Movie</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Posters & cast</p>
               </div>
             </Link>
 
             <Link
               to="/addtheatre"
-              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between group min-w-0"
+              className="p-4 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between group min-w-0 shadow-sm hover:shadow-md"
             >
-              <MapPin className="w-5 h-5 text-cyan-400 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
+              <MapPin className="w-5 h-5 text-cyan-600 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
               <div>
-                <h3 className="text-xs sm:text-sm font-bold text-white truncate">Add Theatre</h3>
-                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">Locations & tiers</p>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">Add Theatre</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Locations & tiers</p>
               </div>
             </Link>
 
             <Link
               to="/addshow"
-              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-amber-500/50 transition-all flex flex-col justify-between group min-w-0"
+              className="p-4 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 transition-all flex flex-col justify-between group min-w-0 shadow-sm hover:shadow-md"
             >
-              <Calendar className="w-5 h-5 text-amber-400 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
+              <Calendar className="w-5 h-5 text-amber-500 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
               <div>
-                <h3 className="text-xs sm:text-sm font-bold text-white truncate">Schedule Show</h3>
-                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">Date & time slots</p>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">Schedule Show</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Date & time slots</p>
               </div>
             </Link>
 
             <Link
               to="/adminbookings"
-              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/50 transition-all flex flex-col justify-between group min-w-0"
+              className="p-4 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/50 transition-all flex flex-col justify-between group min-w-0 shadow-sm hover:shadow-md"
             >
-              <Ticket className="w-5 h-5 text-emerald-400 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
+              <Ticket className="w-5 h-5 text-emerald-600 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
               <div>
-                <h3 className="text-xs sm:text-sm font-bold text-white truncate">All Bookings</h3>
-                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">Audit reservations</p>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">All Bookings</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Audit reservations</p>
               </div>
             </Link>
 
             <Link
               to="/addadmin"
-              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-purple-500/50 transition-all flex flex-col justify-between group min-w-0"
+              className="p-4 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-purple-500/50 transition-all flex flex-col justify-between group min-w-0 shadow-sm hover:shadow-md"
             >
-              <UserPlus className="w-5 h-5 text-purple-400 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
+              <UserPlus className="w-5 h-5 text-purple-600 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
               <div>
-                <h3 className="text-xs sm:text-sm font-bold text-white truncate">Create Admin</h3>
-                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">Sub-administrators</p>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">Create Admin</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Sub-administrators</p>
               </div>
             </Link>
           </div>
 
           {/* Recent Bookings Table */}
-          <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 backdrop-blur-xl shadow-2xl space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+          <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 backdrop-blur-xl shadow-sm dark:shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center space-x-2">
-                <Ticket className="w-4 h-4 text-red-500" />
-                <h2 className="text-base font-bold text-white">Recent Customer Bookings</h2>
+                <Ticket className="w-4 h-4 text-red-600" />
+                <h2 className="text-base font-bold text-slate-900 dark:text-white">Recent Customer Bookings</h2>
               </div>
               <div className="flex items-center space-x-4">
                 <button
                   type="button"
                   onClick={() => setActiveTab('transactions')}
-                  className="text-xs text-rose-400 hover:text-rose-300 font-semibold flex items-center space-x-1"
+                  className="text-xs text-rose-600 dark:text-rose-400 hover:underline font-semibold flex items-center space-x-1"
                 >
                   <span>Refund Management</span>
                   <RotateCcw className="w-3.5 h-3.5" />
                 </button>
-                <Link to="/adminbookings" className="text-xs text-red-400 hover:text-red-300 font-semibold flex items-center space-x-1">
+                <Link to="/adminbookings" className="text-xs text-red-600 dark:text-red-400 hover:underline font-semibold flex items-center space-x-1">
                   <span>View All</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
@@ -289,7 +289,7 @@ const AdminDashboard = () => {
             <div className="overflow-x-auto min-w-0 w-full">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-bold">
+                  <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold">
                     <th className="py-3 px-3">Booking ID</th>
                     <th className="py-3 px-3">Customer</th>
                     <th className="py-3 px-3">Movie & Theatre</th>
@@ -298,7 +298,7 @@ const AdminDashboard = () => {
                     <th className="py-3 px-3">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
                   {recentBookings.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="py-8 text-center text-slate-500">
@@ -307,27 +307,27 @@ const AdminDashboard = () => {
                     </tr>
                   ) : (
                     recentBookings.map((b) => (
-                      <tr key={b._id} className="hover:bg-slate-800/40">
-                        <td className="py-3 px-3 font-mono text-cyan-400 font-bold">{b.bookingId}</td>
-                        <td className="py-3 px-3 text-slate-300">{b.userEmail}</td>
-                        <td className="py-3 px-3 text-white font-semibold">
+                      <tr key={b._id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                        <td className="py-3 px-3 font-mono text-cyan-600 dark:text-cyan-400 font-bold">{b.bookingId}</td>
+                        <td className="py-3 px-3 text-slate-700 dark:text-slate-300">{b.userEmail}</td>
+                        <td className="py-3 px-3 text-slate-900 dark:text-white font-semibold">
                           {b.showDetails?.movieName}
-                          <span className="block text-[10px] text-slate-400 font-normal">
+                          <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-normal">
                             {b.showDetails?.theatreName}
                           </span>
                         </td>
-                        <td className="py-3 px-3 text-emerald-400 font-bold">
+                        <td className="py-3 px-3 text-emerald-600 dark:text-emerald-400 font-bold">
                           {Array.isArray(b.selectedSeats) ? b.selectedSeats.join(', ') : b.selectedSeats || 'N/A'}
                         </td>
-                        <td className="py-3 px-3 text-white font-bold">₹{b.totalAmount}</td>
+                        <td className="py-3 px-3 text-slate-900 dark:text-white font-bold">₹{b.totalAmount}</td>
                         <td className="py-3 px-3">
                           <span
                             className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                               b.paymentStatus === 'Completed'
-                                ? 'bg-emerald-500/20 text-emerald-400'
+                                ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400'
                                 : b.paymentStatus === 'Refunded'
-                                ? 'bg-rose-500/20 text-rose-400'
-                                : 'bg-red-500/20 text-red-400'
+                                ? 'bg-rose-50 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400'
+                                : 'bg-red-50 text-red-600 dark:bg-red-500/20 dark:text-red-400'
                             }`}
                           >
                             {b.paymentStatus}
@@ -342,16 +342,16 @@ const AdminDashboard = () => {
           </div>
 
           {/* User Moderation Table */}
-          <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 backdrop-blur-xl shadow-2xl space-y-4">
-            <div className="flex items-center space-x-2 pb-2 border-b border-slate-800">
-              <Users className="w-4 h-4 text-purple-400" />
-              <h2 className="text-base font-bold text-white">Registered Moviegoer Accounts</h2>
+          <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 backdrop-blur-xl shadow-sm dark:shadow-2xl space-y-4">
+            <div className="flex items-center space-x-2 pb-2 border-b border-slate-200 dark:border-slate-800">
+              <Users className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+              <h2 className="text-base font-bold text-slate-900 dark:text-white">Registered Moviegoer Accounts</h2>
             </div>
 
             <div className="overflow-x-auto min-w-0 w-full">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-bold">
+                  <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold">
                     <th className="py-3 px-3">Username</th>
                     <th className="py-3 px-3">Email</th>
                     <th className="py-3 px-3">Role</th>
@@ -359,24 +359,24 @@ const AdminDashboard = () => {
                     <th className="py-3 px-3 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
                   {users.map((u) => (
-                    <tr key={u._id} className="hover:bg-slate-800/40">
-                      <td className="py-3 px-3 text-white font-bold">{u.username}</td>
-                      <td className="py-3 px-3 text-slate-300">{u.email}</td>
+                    <tr key={u._id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                      <td className="py-3 px-3 text-slate-900 dark:text-white font-bold">{u.username}</td>
+                      <td className="py-3 px-3 text-slate-600 dark:text-slate-300">{u.email}</td>
                       <td className="py-3 px-3">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-300">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                           {u.role || 'user'}
                         </span>
                       </td>
-                      <td className="py-3 px-3 text-slate-400">
+                      <td className="py-3 px-3 text-slate-500 dark:text-slate-400">
                         {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'N/A'}
                       </td>
                       <td className="py-3 px-3 text-right">
                         <button
                           type="button"
                           onClick={() => handleDeleteUser(u._id)}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
                           title="Delete User"
                         >
                           <Trash2 className="w-4 h-4" />

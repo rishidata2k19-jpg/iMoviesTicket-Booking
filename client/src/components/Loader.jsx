@@ -11,7 +11,7 @@ const Loader = ({ message = 'Loading cinema experience...' }) => {
           <Film className="w-6 h-6 text-red-500 animate-pulse" />
         </div>
       </div>
-      <p className="text-sm font-medium text-slate-400 tracking-wide animate-pulse">
+      <p className="text-sm font-medium text-slate-600 dark:text-slate-400 tracking-wide animate-pulse">
         {message}
       </p>
     </div>

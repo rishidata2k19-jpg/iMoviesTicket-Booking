@@ -450,10 +450,10 @@ const SeatMap = () => {
 
     return (
       <div className="space-y-3 mb-8">
-        <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800/80 pb-2">
           <div className="flex items-center space-x-2">
-            <span className="text-xs font-black uppercase tracking-wider text-slate-300">{tierTitle}</span>
-            <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+            <span className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">{tierTitle}</span>
+            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-500/20">
               ₹{price}
             </span>
           </div>
@@ -464,7 +464,7 @@ const SeatMap = () => {
           <div className="flex flex-col items-center space-y-2 min-w-max mx-auto px-2">
           {Object.entries(rows).map(([rowLetter, rowSeats]) => (
             <div key={rowLetter} className="flex items-center space-x-2 sm:space-x-3">
-              <span className="w-5 text-center text-xs font-black text-slate-500">{rowLetter}</span>
+              <span className="w-5 text-center text-xs font-black text-slate-600 dark:text-slate-500">{rowLetter}</span>
 
               <div className="flex items-center space-x-1.5 sm:space-x-2">
                 {rowSeats
@@ -478,14 +478,14 @@ const SeatMap = () => {
                       seat.lockExpiresAt &&
                       new Date(seat.lockExpiresAt) > new Date();
 
-                    let btnStyle = 'bg-slate-800/80 hover:bg-cyan-500/30 text-slate-300 border-slate-700/80';
+                    let btnStyle = 'bg-slate-100 hover:bg-cyan-100 text-slate-800 border-slate-300 dark:bg-slate-800/80 dark:hover:bg-cyan-500/30 dark:text-slate-300 dark:border-slate-700/80';
 
                     if (isBooked) {
-                      btnStyle = 'bg-slate-950 text-slate-600 border-slate-900 cursor-not-allowed line-through';
+                      btnStyle = 'bg-slate-200 text-slate-400 border-slate-300 cursor-not-allowed line-through dark:bg-slate-950 dark:text-slate-600 dark:border-slate-900';
                     } else if (isLockedOther) {
-                      btnStyle = 'bg-amber-500/20 text-amber-400 border-amber-500/40 cursor-not-allowed animate-pulse';
+                      btnStyle = 'bg-amber-100 text-amber-700 border-amber-300 cursor-not-allowed animate-pulse dark:bg-amber-500/20 dark:text-amber-400 dark:border-amber-500/40';
                     } else if (isSelected) {
-                      btnStyle = 'bg-cyan-500 text-slate-950 font-black border-cyan-400 shadow-lg shadow-cyan-500/30 scale-105';
+                      btnStyle = 'bg-cyan-500 text-white dark:text-slate-950 font-black border-cyan-400 shadow-md shadow-cyan-500/30 scale-105';
                     }
 
                     return (
@@ -503,7 +503,7 @@ const SeatMap = () => {
                   })}
               </div>
 
-              <span className="w-5 text-center text-xs font-black text-slate-500">{rowLetter}</span>
+              <span className="w-5 text-center text-xs font-black text-slate-600 dark:text-slate-500">{rowLetter}</span>
             </div>
           ))}
         </div>
@@ -515,26 +515,26 @@ const SeatMap = () => {
   return (
     <div className="min-h-screen pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
       {/* Top Breadcrumb & Info */}
-      <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-800 gap-4">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800 gap-4">
         <div className="flex items-center space-x-4">
           <Link
             to={`/movieshows/${show.movieId}`}
-            className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition-colors"
+            className="p-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-colors shadow-sm"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="text-xs font-bold text-red-500 uppercase tracking-widest">{show.theatreName}</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">
+              <span className="text-xs font-bold text-red-600 dark:text-red-500 uppercase tracking-widest">{show.theatreName}</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-50 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-800">
                 {show.screenType}
               </span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-black text-white">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
               {movie?.movieName || 'Movie Showtime'}
             </h1>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Showtime: <span className="text-slate-200 font-semibold">{show.showTime}</span> •{' '}
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Showtime: <span className="text-slate-700 dark:text-slate-200 font-semibold">{show.showTime}</span> •{' '}
               {new Date(show.showDate).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
             </p>
           </div>
@@ -542,11 +542,11 @@ const SeatMap = () => {
 
         {/* Live Seat Locking Timer Banner */}
         {isLockedByMe && (
-          <div className="flex items-center space-x-3 px-4 py-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 animate-pulse">
+          <div className="flex items-center space-x-3 px-4 py-2.5 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 text-amber-700 dark:text-amber-400 animate-pulse shadow-sm">
             <Lock className="w-5 h-5 flex-shrink-0" />
             <div>
               <span className="text-[11px] font-semibold block">Seats Reserved Exclusively:</span>
-              <span className="text-lg font-black tracking-wider text-amber-300">
+              <span className="text-lg font-black tracking-wider text-amber-600 dark:text-amber-300">
                 {formatTimer(secondsRemaining)} remaining
               </span>
             </div>
@@ -556,31 +556,31 @@ const SeatMap = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative">
         {/* Cinema Screen & Seat Map Grid Area */}
-        <div className="lg:col-span-8 min-w-0 w-full bg-slate-900/60 border border-slate-800 rounded-3xl p-4 sm:p-6 lg:p-8 backdrop-blur-md shadow-2xl">
+        <div className="lg:col-span-8 min-w-0 w-full bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 sm:p-6 lg:p-8 backdrop-blur-md shadow-sm dark:shadow-2xl">
           {/* Cinema Curved Screen graphic */}
           <div className="mb-12 max-w-xl mx-auto text-center">
             <div className="screen-curve w-full mx-auto" />
-            <p className="text-[11px] uppercase tracking-widest text-slate-400 font-bold mt-3">
+            <p className="text-[11px] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-bold mt-3">
               All Eyes This Way • Cinema Screen
             </p>
           </div>
 
           {/* Seat Map Legend */}
-          <div className="flex flex-wrap items-center justify-center gap-6 mb-10 text-xs font-medium text-slate-400 border-b border-slate-800/60 pb-4">
+          <div className="flex flex-wrap items-center justify-center gap-6 mb-10 text-xs font-medium text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800/60 pb-4">
             <div className="flex items-center space-x-2">
-              <div className="w-5 h-5 rounded-md bg-slate-800 border border-slate-700" />
+              <div className="w-5 h-5 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700" />
               <span>Available</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-5 h-5 rounded-md bg-cyan-500 border border-cyan-400 shadow-sm" />
-              <span className="text-cyan-400 font-semibold">Selected</span>
+              <span className="text-cyan-600 dark:text-cyan-400 font-semibold">Selected</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className="w-5 h-5 rounded-md bg-amber-500/30 border border-amber-500/50" />
+              <div className="w-5 h-5 rounded-md bg-amber-100 dark:bg-amber-500/30 border border-amber-300 dark:border-amber-500/50" />
               <span>Locked (TTL)</span>
             </div>
             <div className="flex items-center space-x-2">
-              <div className="w-5 h-5 rounded-md bg-slate-950 border border-slate-900 line-through" />
+              <div className="w-5 h-5 rounded-md bg-slate-200 dark:bg-slate-950 border border-slate-300 dark:border-slate-900 line-through" />
               <span>Sold / Booked</span>
             </div>
           </div>
@@ -600,24 +600,24 @@ const SeatMap = () => {
 
         {/* Sidebar Summary & Booking Checkout Card */}
         <div className="lg:col-span-4 min-w-0 w-full lg:sticky lg:top-24 space-y-4">
-          <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 backdrop-blur-xl shadow-2xl space-y-6">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-              <h2 className="text-base font-bold text-white flex items-center space-x-2">
-                <Ticket className="w-4 h-4 text-red-500" />
+          <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 backdrop-blur-xl shadow-sm dark:shadow-2xl space-y-6">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
+              <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                <Ticket className="w-4 h-4 text-red-600" />
                 <span>Ticket Summary</span>
               </h2>
-              <span className="text-xs text-slate-400">
+              <span className="text-xs text-slate-500 dark:text-slate-400">
                 {selectedSeats.length} {selectedSeats.length === 1 ? 'seat' : 'seats'} chosen
               </span>
             </div>
 
             {/* Selected seats list chips */}
             <div>
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">
                 Selected Seats:
               </span>
               {selectedSeats.length === 0 ? (
-                <div className="text-xs text-slate-500 italic p-3 rounded-xl bg-slate-950 border border-slate-800 text-center">
+                <div className="text-xs text-slate-500 italic p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-center">
                   Click on any available seat in the map to select
                 </div>
               ) : (
@@ -627,10 +627,10 @@ const SeatMap = () => {
                     return (
                       <span
                         key={sId}
-                        className="px-3 py-1.5 rounded-xl bg-cyan-950/80 border border-cyan-800/80 text-cyan-300 text-xs font-black flex items-center space-x-1.5"
+                        className="px-3 py-1.5 rounded-xl bg-cyan-50 dark:bg-cyan-950/80 border border-cyan-200 dark:border-cyan-800/80 text-cyan-800 dark:text-cyan-300 text-xs font-black flex items-center space-x-1.5 shadow-sm"
                       >
                         <span>{sId}</span>
-                        <span className="text-[10px] text-cyan-400/80 font-normal">(${seat?.price || 200})</span>
+                        <span className="text-[10px] text-cyan-600 dark:text-cyan-400/80 font-normal">(₹{seat?.price || 200})</span>
                       </span>
                     );
                   })}
@@ -639,18 +639,18 @@ const SeatMap = () => {
             </div>
 
             {/* Pricing Breakdown */}
-            <div className="space-y-2.5 pt-4 border-t border-slate-800 text-xs">
-              <div className="flex justify-between text-slate-400">
+            <div className="space-y-2.5 pt-4 border-t border-slate-200 dark:border-slate-800 text-xs">
+              <div className="flex justify-between text-slate-600 dark:text-slate-400">
                 <span>Tickets Subtotal</span>
-                <span className="font-semibold text-white">${subtotal}</span>
+                <span className="font-semibold text-slate-900 dark:text-white">₹{subtotal}</span>
               </div>
-              <div className="flex justify-between text-slate-400">
+              <div className="flex justify-between text-slate-600 dark:text-slate-400">
                 <span>Convenience Fee (includes GST)</span>
-                <span className="font-semibold text-white">${convenienceFee}</span>
+                <span className="font-semibold text-slate-900 dark:text-white">₹{convenienceFee}</span>
               </div>
-              <div className="flex justify-between text-base font-black text-white pt-3 border-t border-slate-800">
+              <div className="flex justify-between text-base font-black text-slate-900 dark:text-white pt-3 border-t border-slate-200 dark:border-slate-800">
                 <span>Total Payable</span>
-                <span className="text-emerald-400">${grandTotal}</span>
+                <span className="text-emerald-600 dark:text-emerald-400">₹{grandTotal}</span>
               </div>
             </div>
 
@@ -674,13 +674,13 @@ const SeatMap = () => {
                     className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm shadow-xl shadow-emerald-600/30 transition-all flex items-center justify-center space-x-2"
                   >
                     <CreditCard className="w-4 h-4" />
-                    <span>Proceed to Checkout (${grandTotal})</span>
+                    <span>Proceed to Checkout (₹{grandTotal})</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={handleUnlockSeats}
-                    className="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition-colors flex items-center justify-center space-x-1"
+                    className="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-xs transition-colors flex items-center justify-center space-x-1"
                   >
                     <Unlock className="w-3.5 h-3.5" />
                     <span>Cancel / Unlock Seats</span>
@@ -690,8 +690,8 @@ const SeatMap = () => {
             </div>
 
             {/* Safe booking guarantee notice */}
-            <div className="flex items-center space-x-2 text-[11px] text-slate-400 pt-2 border-t border-slate-800/80">
-              <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+            <div className="flex items-center space-x-2 text-[11px] text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-200 dark:border-slate-800/80">
+              <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
               <span>Real-time lock guarantees your seats for 5 minutes during checkout.</span>
             </div>
           </div>
@@ -701,70 +701,70 @@ const SeatMap = () => {
       {/* Interactive Payment Checkout Modal */}
       {showCheckoutModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-          <div className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div className="w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center space-x-2">
-                <Sparkles className="w-5 h-5 text-red-500" />
-                <h3 className="text-lg font-bold text-white">iMovies Express Checkout</h3>
+                <Sparkles className="w-5 h-5 text-red-600" />
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">iMovies Express Checkout</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowCheckoutModal(false)}
-                className="text-slate-400 hover:text-white text-xs px-2.5 py-1 rounded-lg bg-slate-800"
+                className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white text-xs px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800"
               >
                 Close
               </button>
             </div>
 
             {/* Payment Summary */}
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1.5 text-xs">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1.5 text-xs">
               <div className="flex justify-between">
-                <span className="text-slate-400">Movie & Theatre:</span>
-                <span className="font-semibold text-white">{movie?.movieName}</span>
+                <span className="text-slate-500 dark:text-slate-400">Movie & Theatre:</span>
+                <span className="font-semibold text-slate-900 dark:text-white">{movie?.movieName}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Seats ({selectedSeats.length}):</span>
-                <span className="font-bold text-cyan-400">{selectedSeats.join(', ')}</span>
+                <span className="text-slate-500 dark:text-slate-400">Seats ({selectedSeats.length}):</span>
+                <span className="font-bold text-cyan-600 dark:text-cyan-400">{selectedSeats.join(', ')}</span>
               </div>
-              <div className="flex justify-between pt-2 border-t border-slate-800 font-black text-sm text-white">
+              <div className="flex justify-between pt-2 border-t border-slate-200 dark:border-slate-800 font-black text-sm text-slate-900 dark:text-white">
                 <span>Total Payable:</span>
-                <span className="text-emerald-400">₹{grandTotal}</span>
+                <span className="text-emerald-600 dark:text-emerald-400">₹{grandTotal}</span>
               </div>
             </div>
 
             {/* Razorpay Gateway Badge & Multi-Payment Feature List */}
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-950 to-slate-900 border border-red-500/20 space-y-3">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 border border-red-500/20 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <div className="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center text-white font-black text-xs">
                     R
                   </div>
-                  <span className="text-xs font-black text-white">Razorpay Payment Gateway</span>
+                  <span className="text-xs font-black text-slate-900 dark:text-white">Razorpay Payment Gateway</span>
                 </div>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20">
                   Test Mode Active
                 </span>
               </div>
 
-              <p className="text-[11px] text-slate-400 leading-relaxed">
+              <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
                 Secure 256-bit encrypted checkout. Supports all major Indian payment channels:
               </p>
 
-              <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-300">
-                <div className="flex items-center space-x-1.5 bg-slate-950/60 p-2 rounded-lg border border-slate-800">
-                  <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
+              <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-700 dark:text-slate-300">
+                <div className="flex items-center space-x-1.5 bg-white dark:bg-slate-950/60 p-2 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm">
+                  <Smartphone className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                   <span>Instant UPI / QR</span>
                 </div>
-                <div className="flex items-center space-x-1.5 bg-slate-950/60 p-2 rounded-lg border border-slate-800">
-                  <CreditCard className="w-3.5 h-3.5 text-cyan-400" />
+                <div className="flex items-center space-x-1.5 bg-white dark:bg-slate-950/60 p-2 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm">
+                  <CreditCard className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
                   <span>Cards (Visa, MC, RuPay)</span>
                 </div>
-                <div className="flex items-center space-x-1.5 bg-slate-950/60 p-2 rounded-lg border border-slate-800">
-                  <Building className="w-3.5 h-3.5 text-amber-400" />
+                <div className="flex items-center space-x-1.5 bg-white dark:bg-slate-950/60 p-2 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm">
+                  <Building className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                   <span>50+ NetBanking Banks</span>
                 </div>
-                <div className="flex items-center space-x-1.5 bg-slate-950/60 p-2 rounded-lg border border-slate-800">
-                  <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+                <div className="flex items-center space-x-1.5 bg-white dark:bg-slate-950/60 p-2 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm">
+                  <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
                   <span>Wallets & PayLater</span>
                 </div>
               </div>
@@ -788,7 +788,7 @@ const SeatMap = () => {
                 type="button"
                 onClick={handleConfirmBooking}
                 disabled={paymentProcessing}
-                className="w-full py-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-slate-200 text-xs font-semibold border border-slate-800 transition-colors"
+                className="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-950 dark:hover:bg-slate-800 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 text-xs font-semibold border border-slate-200 dark:border-slate-800 transition-colors"
               >
                 Instant Offline / Dev Bypass Simulation
               </button>

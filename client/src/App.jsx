@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
@@ -34,11 +35,12 @@ const AdminBookings = lazy(() => import('./pages/AdminBookings'));
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="min-h-screen flex flex-col bg-[#080c14] text-slate-100">
-          <Header />
-          <main className="flex-1">
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#080c14] text-slate-800 dark:text-slate-100 transition-colors duration-200">
+            <Header />
+            <main className="flex-1">
             <ErrorBoundary>
               <Suspense fallback={<Loader message="Curating cinema experience..." />}>
                 <Routes>
@@ -181,6 +183,7 @@ function App() {
         </div>
       </Router>
     </AuthProvider>
+  </ThemeProvider>
   );
 }
 

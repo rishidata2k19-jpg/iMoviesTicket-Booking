@@ -48,23 +48,23 @@ const AddTheatre = () => {
 
   return (
     <div className="min-h-screen pb-24 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-      <div className="mb-6 flex items-center space-x-4 pb-4 border-b border-slate-800">
+      <div className="mb-6 flex items-center space-x-4 pb-4 border-b border-slate-200 dark:border-slate-800">
         <Link
           to="/admin"
-          className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition-colors"
+          className="p-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-colors shadow-sm"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest">Cinema Venues</span>
-          <h1 className="text-2xl font-black text-white">Register Theatre & Configure Seat Tiers</h1>
+          <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-widest">Cinema Venues</span>
+          <h1 className="text-2xl font-black text-slate-900 dark:text-white">Register Theatre & Configure Seat Tiers</h1>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl space-y-6">
+      <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-sm dark:shadow-2xl space-y-6">
         <div className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Theatre Name *</label>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Theatre Name *</label>
             <input
               type="text"
               name="theatreName"
@@ -72,25 +72,25 @@ const AddTheatre = () => {
               value={formData.theatreName}
               onChange={handleChange}
               placeholder="e.g. Cineplex IMAX Screen 1"
-              className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400"
+              className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Theatre ID (Optional)</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Theatre ID (Optional)</label>
               <input
                 type="text"
                 name="theatreId"
                 value={formData.theatreId}
                 onChange={handleChange}
                 placeholder="Auto-generated if empty (e.g. THTR-01)"
-                className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400"
+                className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Location / City *</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Location / City *</label>
               <input
                 type="text"
                 name="location"
@@ -98,19 +98,19 @@ const AddTheatre = () => {
                 value={formData.location}
                 onChange={handleChange}
                 placeholder="Downtown Mall, 4th Floor"
-                className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400"
+                className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500"
               />
             </div>
           </div>
 
           {/* Seat Tier Pricing Configuration */}
-          <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-3">
-            <span className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
-              Tier Seat Pricing ($):
+          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 space-y-3">
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">
+              Tier Seat Pricing (₹):
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-emerald-400 mb-1">Balcony VIP ($)</label>
+                <label className="block text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 mb-1">Balcony VIP (₹)</label>
                 <input
                   type="number"
                   name="balconySeatPrice"
@@ -118,12 +118,12 @@ const AddTheatre = () => {
                   min={1}
                   value={formData.balconySeatPrice}
                   onChange={handleChange}
-                  className="w-full p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full p-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-cyan-400 mb-1">Middle Premium ($)</label>
+                <label className="block text-[11px] font-semibold text-cyan-600 dark:text-cyan-400 mb-1">Middle Premium (₹)</label>
                 <input
                   type="number"
                   name="middleSeatPrice"
@@ -131,12 +131,12 @@ const AddTheatre = () => {
                   min={1}
                   value={formData.middleSeatPrice}
                   onChange={handleChange}
-                  className="w-full p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full p-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-amber-400 mb-1">Lower Standard ($)</label>
+                <label className="block text-[11px] font-semibold text-amber-600 dark:text-amber-400 mb-1">Lower Standard (₹)</label>
                 <input
                   type="number"
                   name="lowerSeatPrice"
@@ -144,14 +144,14 @@ const AddTheatre = () => {
                   min={1}
                   value={formData.lowerSeatPrice}
                   onChange={handleChange}
-                  className="w-full p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400"
+                  className="w-full p-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500"
                 />
               </div>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
               Facilities & Amenities (comma separated)
             </label>
             <input
@@ -160,16 +160,16 @@ const AddTheatre = () => {
               value={formData.facilities}
               onChange={handleChange}
               placeholder="Dolby Atmos, 4K Laser, Food Court, Parking"
-              className="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400"
+              className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500"
             />
           </div>
         </div>
 
-        <div className="pt-4 border-t border-slate-800 flex justify-end">
+        <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex justify-end">
           <button
             type="submit"
             disabled={submitting}
-            className="px-8 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm shadow-xl shadow-cyan-600/30 transition-all disabled:opacity-50"
+            className="px-8 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm shadow-md shadow-cyan-600/30 transition-all disabled:opacity-50"
           >
             {submitting ? 'Registering...' : 'Register Theatre'}
           </button>
