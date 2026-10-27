@@ -42,6 +42,27 @@ app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// URL Normalizer for Vercel Serverless Function rewrites & catch-all routes
+app.use((req, res, next) => {
+  if (
+    req.originalUrl &&
+    (req.originalUrl.startsWith('/api') ||
+      req.originalUrl.startsWith('/auth') ||
+      req.originalUrl.startsWith('/movie') ||
+      req.originalUrl.startsWith('/theatre') ||
+      req.originalUrl.startsWith('/shows') ||
+      req.originalUrl.startsWith('/bookings') ||
+      req.originalUrl.startsWith('/payment') ||
+      req.originalUrl.startsWith('/admin'))
+  ) {
+    req.url = req.originalUrl;
+  } else if (req.query && req.query.all) {
+    const subpath = Array.isArray(req.query.all) ? req.query.all.join('/') : req.query.all;
+    req.url = `/api/${subpath}`;
+  }
+  next();
+});
+
 // Mount API Routes (Support both /api/xxx and /xxx for robust Vercel serverless routing)
 app.use('/api/auth', authRoutes);
 app.use('/auth', authRoutes);
