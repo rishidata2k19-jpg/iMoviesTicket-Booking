@@ -42,19 +42,36 @@ app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Mount API Routes
+// Mount API Routes (Support both /api/xxx and /xxx for robust Vercel serverless routing)
 app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
+
 app.use('/api/movie', movieRoutes);
+app.use('/movie', movieRoutes);
+
 app.use('/api/theatre', theatreRoutes);
+app.use('/theatre', theatreRoutes);
+
 app.use('/api/shows', showRoutes);
+app.use('/shows', showRoutes);
+
 app.use('/api/bookings', bookingRoutes);
+app.use('/bookings', bookingRoutes);
+
 app.use('/api/favorite', favoriteRoutes);
+app.use('/favorite', favoriteRoutes);
+
 app.use('/api/review', reviewRoutes);
+app.use('/review', reviewRoutes);
+
 app.use('/api/payment', paymentRoutes);
+app.use('/payment', paymentRoutes);
+
 app.use('/api/admin', adminRoutes);
+app.use('/admin', adminRoutes);
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
+const handleHealth = (req, res) => {
   res.status(200).json({
     status: 'OK',
     service: 'iMovies Vercel Serverless API',
@@ -62,7 +79,9 @@ app.get('/api/health', (req, res) => {
     dbConnected: mongoose.connection.readyState === 1,
     dbState: mongoose.connection.readyState,
   });
-});
+};
+app.get('/api/health', handleHealth);
+app.get('/health', handleHealth);
 
 const MONGO_URI =
   process.env.MONGO_URI ||

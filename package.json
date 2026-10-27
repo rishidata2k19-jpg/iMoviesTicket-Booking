@@ -8,6 +8,7 @@
     "server": "node server/server.js",
     "backend": "node server/server.js",
     "client": "npm --prefix client run dev",
+    "fullstack": "node -e \"const { spawn } = require('child_process'); spawn('npm', ['run', 'server'], { stdio: 'inherit', shell: true }); spawn('npm', ['run', 'client'], { stdio: 'inherit', shell: true });\"",
     "build": "npm --prefix client install && npm --prefix client run build && node -e \"const fs = require('fs'); fs.cpSync('client/dist', 'dist', { recursive: true });\"",
     "install:all": "npm install && npm --prefix client install && npm --prefix server install"
   },
