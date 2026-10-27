@@ -454,13 +454,14 @@ const SeatMap = () => {
           <div className="flex items-center space-x-2">
             <span className="text-xs font-black uppercase tracking-wider text-slate-300">{tierTitle}</span>
             <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-              ${price}
+              ₹{price}
             </span>
           </div>
           <span className="text-[11px] text-slate-500 font-medium">10 seats / row</span>
         </div>
 
-        <div className="flex flex-col items-center space-y-2">
+        <div className="w-full overflow-x-auto py-2">
+          <div className="flex flex-col items-center space-y-2 min-w-max mx-auto px-2">
           {Object.entries(rows).map(([rowLetter, rowSeats]) => (
             <div key={rowLetter} className="flex items-center space-x-2 sm:space-x-3">
               <span className="w-5 text-center text-xs font-black text-slate-500">{rowLetter}</span>
@@ -493,7 +494,7 @@ const SeatMap = () => {
                         type="button"
                         onClick={() => handleSeatClick(seat.seatNumber)}
                         disabled={isBooked || isLockedOther}
-                        title={`Seat ${seat.seatNumber} - $${seat.price} (${seat.status})`}
+                        title={`Seat ${seat.seatNumber} - ₹${seat.price} (${seat.status})`}
                         className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-[10px] sm:text-xs font-bold border transition-all flex items-center justify-center ${btnStyle}`}
                       >
                         {seat.col}
@@ -507,6 +508,7 @@ const SeatMap = () => {
           ))}
         </div>
       </div>
+    </div>
     );
   };
 
@@ -552,9 +554,9 @@ const SeatMap = () => {
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative">
         {/* Cinema Screen & Seat Map Grid Area */}
-        <div className="lg:col-span-8 bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-2xl">
+        <div className="lg:col-span-8 min-w-0 w-full bg-slate-900/60 border border-slate-800 rounded-3xl p-4 sm:p-6 lg:p-8 backdrop-blur-md shadow-2xl">
           {/* Cinema Curved Screen graphic */}
           <div className="mb-12 max-w-xl mx-auto text-center">
             <div className="screen-curve w-full mx-auto" />
@@ -597,7 +599,7 @@ const SeatMap = () => {
         </div>
 
         {/* Sidebar Summary & Booking Checkout Card */}
-        <div className="lg:col-span-4 sticky top-24 space-y-4">
+        <div className="lg:col-span-4 min-w-0 w-full lg:sticky lg:top-24 space-y-4">
           <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 backdrop-blur-xl shadow-2xl space-y-6">
             <div className="flex items-center justify-between pb-4 border-b border-slate-800">
               <h2 className="text-base font-bold text-white flex items-center space-x-2">

@@ -12,7 +12,7 @@ const AdminProtection = ({ children }) => {
   }
 
   if (!isAuthenticated || !isAdmin) {
-    return <Navigate to="/login" state={{ from: location, requireAdmin: true }} replace />;
+    return <Navigate to="/admin-login" state={{ from: location }} replace />;
   }
 
   return children;

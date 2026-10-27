@@ -60,6 +60,7 @@ const Footer = () => {
               <li><Link to="/favoriteshows" className="hover:text-red-400 transition-colors">Saved Watchlist</Link></li>
               <li><Link to="/bookings" className="hover:text-red-400 transition-colors">My Digital Tickets</Link></li>
               <li><Link to="/profile" className="hover:text-red-400 transition-colors">Account Dashboard</Link></li>
+              <li><Link to="/admin-login" className="hover:text-amber-400 transition-colors flex items-center space-x-1"><span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span>Admin Portal</span></Link></li>
             </ul>
           </div>
 

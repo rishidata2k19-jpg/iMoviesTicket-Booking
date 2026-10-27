@@ -194,71 +194,71 @@ const AdminDashboard = () => {
           </div>
 
           {/* Admin Quick Action Hub */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             <button
               type="button"
               onClick={() => setActiveTab('transactions')}
-              className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-rose-500/50 transition-all flex flex-col justify-between group text-left"
+              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-rose-500/50 transition-all flex flex-col justify-between group text-left min-w-0"
             >
-              <CreditCard className="w-6 h-6 text-rose-500 mb-2 group-hover:scale-110 transition-transform" />
+              <CreditCard className="w-5 h-5 text-rose-500 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
               <div>
-                <h3 className="text-sm font-bold text-white">Refunds & Ledger</h3>
-                <p className="text-[11px] text-slate-400 mt-0.5">Razorpay Gateway</p>
+                <h3 className="text-xs sm:text-sm font-bold text-white truncate">Refunds & Ledger</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">Razorpay Gateway</p>
               </div>
             </button>
 
             <Link
               to="/addmovie"
-              className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-red-500/50 transition-all flex flex-col justify-between group"
+              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-red-500/50 transition-all flex flex-col justify-between group min-w-0"
             >
-              <Film className="w-6 h-6 text-red-500 mb-2 group-hover:scale-110 transition-transform" />
+              <Film className="w-5 h-5 text-red-500 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
               <div>
-                <h3 className="text-sm font-bold text-white">Add New Movie</h3>
-                <p className="text-[11px] text-slate-400 mt-0.5">Posters & cast</p>
+                <h3 className="text-xs sm:text-sm font-bold text-white truncate">Add New Movie</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">Posters & cast</p>
               </div>
             </Link>
 
             <Link
               to="/addtheatre"
-              className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between group"
+              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between group min-w-0"
             >
-              <MapPin className="w-6 h-6 text-cyan-400 mb-2 group-hover:scale-110 transition-transform" />
+              <MapPin className="w-5 h-5 text-cyan-400 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
               <div>
-                <h3 className="text-sm font-bold text-white">Add Theatre</h3>
-                <p className="text-[11px] text-slate-400 mt-0.5">Locations & tiers</p>
+                <h3 className="text-xs sm:text-sm font-bold text-white truncate">Add Theatre</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">Locations & tiers</p>
               </div>
             </Link>
 
             <Link
               to="/addshow"
-              className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-amber-500/50 transition-all flex flex-col justify-between group"
+              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-amber-500/50 transition-all flex flex-col justify-between group min-w-0"
             >
-              <Calendar className="w-6 h-6 text-amber-400 mb-2 group-hover:scale-110 transition-transform" />
+              <Calendar className="w-5 h-5 text-amber-400 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
               <div>
-                <h3 className="text-sm font-bold text-white">Schedule Show</h3>
-                <p className="text-[11px] text-slate-400 mt-0.5">Date & time slots</p>
+                <h3 className="text-xs sm:text-sm font-bold text-white truncate">Schedule Show</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">Date & time slots</p>
               </div>
             </Link>
 
             <Link
               to="/adminbookings"
-              className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/50 transition-all flex flex-col justify-between group"
+              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/50 transition-all flex flex-col justify-between group min-w-0"
             >
-              <Ticket className="w-6 h-6 text-emerald-400 mb-2 group-hover:scale-110 transition-transform" />
+              <Ticket className="w-5 h-5 text-emerald-400 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
               <div>
-                <h3 className="text-sm font-bold text-white">All Bookings</h3>
-                <p className="text-[11px] text-slate-400 mt-0.5">Audit reservations</p>
+                <h3 className="text-xs sm:text-sm font-bold text-white truncate">All Bookings</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">Audit reservations</p>
               </div>
             </Link>
 
             <Link
               to="/addadmin"
-              className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-purple-500/50 transition-all flex flex-col justify-between group"
+              className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-purple-500/50 transition-all flex flex-col justify-between group min-w-0"
             >
-              <UserPlus className="w-6 h-6 text-purple-400 mb-2 group-hover:scale-110 transition-transform" />
+              <UserPlus className="w-5 h-5 text-purple-400 mb-2 group-hover:scale-110 transition-transform flex-shrink-0" />
               <div>
-                <h3 className="text-sm font-bold text-white">Create Admin</h3>
-                <p className="text-[11px] text-slate-400 mt-0.5">Sub-administrators</p>
+                <h3 className="text-xs sm:text-sm font-bold text-white truncate">Create Admin</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">Sub-administrators</p>
               </div>
             </Link>
           </div>
@@ -286,7 +286,7 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto min-w-0 w-full">
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-bold">
@@ -348,7 +348,7 @@ const AdminDashboard = () => {
               <h2 className="text-base font-bold text-white">Registered Moviegoer Accounts</h2>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto min-w-0 w-full">
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-bold">

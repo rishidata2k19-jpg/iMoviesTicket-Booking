@@ -8,8 +8,8 @@ router.post('/register', authController.registerUser);
 router.post('/login', authController.loginUser);
 router.get('/me', fetchUser, authController.getCurrentUser);
 
-// Admin Auth
-router.post('/admin/register', authController.registerAdmin);
+// Admin Auth (Registration strictly restricted to authenticated administrators)
+router.post('/admin/register', requireAdmin, authController.registerAdmin);
 router.post('/admin/login', authController.loginAdmin);
 router.get('/admin/stats', requireAdmin, authController.getAdminStats);
 router.get('/admin/users', requireAdmin, authController.getAllUsers);

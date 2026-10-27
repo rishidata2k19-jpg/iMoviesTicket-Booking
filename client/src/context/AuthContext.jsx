@@ -54,11 +54,11 @@ export const AuthProvider = ({ children }) => {
     return { success: false, message: res.data.message };
   };
 
-  const register = async (username, email, password, isAdmin = false) => {
-    const endpoint = isAdmin ? '/auth/admin/register' : '/auth/register';
-    const res = await api.post(endpoint, { username, email, password });
+  // Strictly regular user registration; admin creation is restricted to internal admin tools
+  const register = async (username, email, password) => {
+    const res = await api.post('/auth/register', { username, email, password });
     if (res.data.success) {
-      const userData = res.data.user || res.data.admin;
+      const userData = res.data.user;
       setToken(res.data.token);
       setUser(userData);
       localStorage.setItem('imovies_token', res.data.token);

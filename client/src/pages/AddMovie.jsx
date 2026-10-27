@@ -29,8 +29,12 @@ const AddMovie = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.movieName || !formData.description) {
-      toast.error('Movie name and description are required.');
+    if (!formData.movieName || formData.movieName.trim().length < 2) {
+      toast.error('Movie name must be at least 2 characters.');
+      return;
+    }
+    if (!formData.description || formData.description.trim().length < 10) {
+      toast.error('Description must be at least 10 characters.');
       return;
     }
 
@@ -38,7 +42,7 @@ const AddMovie = () => {
     try {
       const res = await api.post('/movie', formData);
       if (res.data.success) {
-        toast.success(`"${formData.movieName}" added successfully!`);
+        toast.success(`"${formData.movieName}" added successfully and showtimes scheduled!`);
         navigate('/admin');
       }
     } catch (err) {

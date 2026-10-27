@@ -64,16 +64,26 @@ const AddShow = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.movieId || !formData.theatreName || !formData.showDate || !formData.showTime) {
-      toast.error('Please complete all show details.');
+
+    let resolvedTheatreName = formData.theatreName;
+    if (!resolvedTheatreName && formData.theatreId) {
+      const match = theatres.find((t) => t.theatreId === formData.theatreId || t._id === formData.theatreId);
+      if (match) resolvedTheatreName = match.theatreName;
+    }
+
+    if (!formData.movieId || !resolvedTheatreName || !formData.showDate || !formData.showTime) {
+      toast.error('Please complete all show details (movie, theatre, date, and showtime).');
       return;
     }
 
     setSubmitting(true);
     try {
-      const res = await api.post('/shows', formData);
+      const res = await api.post('/shows', {
+        ...formData,
+        theatreName: resolvedTheatreName,
+      });
       if (res.data.success) {
-        toast.success('Show scheduled successfully!');
+        toast.success('Show scheduled successfully! Seats are now open for booking.');
         navigate('/admin');
       }
     } catch (err) {

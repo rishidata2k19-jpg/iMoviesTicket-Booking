@@ -14,6 +14,7 @@ import AdminProtection from './components/AdminProtection';
 // Lazy Loaded Pages (Code Splitting)
 const Landing = lazy(() => import('./pages/Landing'));
 const Login = lazy(() => import('./pages/Login'));
+const AdminLogin = lazy(() => import('./pages/AdminLogin'));
 const Register = lazy(() => import('./pages/Register'));
 const Home = lazy(() => import('./pages/Home'));
 const MovieDetails = lazy(() => import('./pages/MovieDetails'));
@@ -45,6 +46,7 @@ function App() {
                 <Route path="/" element={<Navigate to="/landing" replace />} />
                 <Route path="/landing" element={<Landing />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/admin-login" element={<AdminLogin />} />
                 <Route path="/register" element={<Register />} />
 
                 {/* User Protected Routes */}

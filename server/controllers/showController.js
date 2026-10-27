@@ -2,14 +2,31 @@ const Show = require('../models/showModel');
 const Theatre = require('../models/theatreModel');
 const Movie = require('../models/movieModel');
 
-// 1. Get all shows (with optional filtering by movieId and date)
+// 1. Get all shows (with robust filtering by movieId and date)
 exports.getAllShows = async (req, res) => {
   try {
     const { movieId, date, theatreName } = req.query;
     let query = {};
 
     if (movieId) {
-      query.movieId = movieId;
+      const idCandidates = [String(movieId)];
+      try {
+        let movieDoc = null;
+        if (movieId.match(/^[0-9a-fA-F]{24}$/)) {
+          movieDoc = await Movie.findById(movieId);
+          if (movieDoc && movieDoc.tmdbId) {
+            idCandidates.push(String(movieDoc.tmdbId));
+          }
+        } else if (!isNaN(Number(movieId))) {
+          movieDoc = await Movie.findOne({ tmdbId: Number(movieId) });
+          if (movieDoc) {
+            idCandidates.push(movieDoc._id.toString());
+          }
+        }
+      } catch (lookupErr) {
+        // Silently proceed with primary ID candidate
+      }
+      query.movieId = { $in: idCandidates };
     }
 
     if (theatreName) {
@@ -17,10 +34,17 @@ exports.getAllShows = async (req, res) => {
     }
 
     if (date) {
-      const searchDate = new Date(date);
-      const startOfDay = new Date(searchDate.setHours(0, 0, 0, 0));
-      const endOfDay = new Date(searchDate.setHours(23, 59, 59, 999));
-      query.showDate = { $gte: startOfDay, $lte: endOfDay };
+      const parts = date.split('-').map(Number);
+      if (parts.length === 3) {
+        const [year, month, day] = parts;
+        // Range covers +/- 14 hours to accommodate any client/server timezone offset
+        const startOfDay = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
+        const endOfDay = new Date(Date.UTC(year, month - 1, day, 23, 59, 59, 999));
+        query.showDate = {
+          $gte: new Date(startOfDay.getTime() - 14 * 3600 * 1000),
+          $lte: new Date(endOfDay.getTime() + 14 * 3600 * 1000),
+        };
+      }
     }
 
     let shows = await Show.find(query).sort({ showDate: 1, showTime: 1 });
@@ -36,7 +60,7 @@ exports.getAllShows = async (req, res) => {
 
       if (movieDoc) {
         const tmdbService = require('../services/tmdbService');
-        await tmdbService.upsertMovieToDatabase(movieDoc.toObject ? movieDoc.toObject() : movieDoc);
+        await tmdbService.ensureShowsForMovie(movieDoc);
         shows = await Show.find(query).sort({ showDate: 1, showTime: 1 });
       }
     }
@@ -47,6 +71,8 @@ exports.getAllShows = async (req, res) => {
         let movie = null;
         if (show.movieId && show.movieId.match(/^[0-9a-fA-F]{24}$/)) {
           movie = await Movie.findById(show.movieId).select('movieName posterUrl duration certification');
+        } else if (show.movieId && !isNaN(Number(show.movieId))) {
+          movie = await Movie.findOne({ tmdbId: Number(show.movieId) }).select('movieName posterUrl duration certification');
         }
         return {
           ...show.toObject(),
@@ -130,19 +156,21 @@ exports.createShow = async (req, res) => {
       customTickets,
     } = req.body;
 
-    const email = adminEmail || req.user?.email;
-    if (!email || !movieId || !theatreName || !showDate || !showTime) {
-      return res.status(400).json({ success: false, message: 'Missing required show fields.' });
+    const email = adminEmail || req.user?.email || 'admin@imovies.com';
+    if (!movieId || !theatreName || !showDate || !showTime) {
+      return res.status(400).json({ success: false, message: 'Missing required show fields: movieId, theatreName, showDate, or showTime.' });
     }
 
     // Try finding the theatre to generate tickets layout
     let theatre = null;
     if (theatreId) {
-      theatre = await Theatre.findOne({
-        $or: [{ _id: theatreId.match(/^[0-9a-fA-F]{24}$/) ? theatreId : null }, { theatreId }],
-      });
+      const orConditions = [{ theatreId }];
+      if (theatreId.match(/^[0-9a-fA-F]{24}$/)) {
+        orConditions.push({ _id: theatreId });
+      }
+      theatre = await Theatre.findOne({ $or: orConditions });
     }
-    if (!theatre) {
+    if (!theatre && theatreName) {
       theatre = await Theatre.findOne({ theatreName });
     }
 
@@ -206,17 +234,25 @@ exports.createShow = async (req, res) => {
       });
     }
 
+    let parsedDate;
+    if (typeof showDate === 'string' && showDate.includes('-')) {
+      const [y, m, d] = showDate.split('-').map(Number);
+      parsedDate = new Date(Date.UTC(y, m - 1, d, 12, 0, 0, 0));
+    } else {
+      parsedDate = new Date(showDate);
+    }
+
     const generatedShowId = 'SHOW-' + Math.random().toString(36).substring(2, 9).toUpperCase();
 
     const newShow = await Show.create({
       adminEmail: email,
       showId: generatedShowId,
-      movieId,
-      theatreName,
+      movieId: String(movieId),
+      theatreName: theatre ? theatre.theatreName : theatreName,
       theatreId: theatre ? theatre.theatreId : theatreId || '',
-      showDate: new Date(showDate),
+      showDate: parsedDate,
       showTime,
-      screenType: screenType || '4K Dolby Atmos',
+      screenType: screenType || (theatre?.facilities?.[0]) || '4K Dolby Atmos',
       tickets: ticketsMap,
     });
 

@@ -197,7 +197,7 @@ const AdminTransactions = () => {
           </span>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto min-w-0 w-full">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-bold bg-slate-950/60">

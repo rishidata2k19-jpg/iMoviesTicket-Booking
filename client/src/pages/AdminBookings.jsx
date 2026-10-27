@@ -110,7 +110,7 @@ const AdminBookings = () => {
 
       {/* Bookings Table */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-3xl overflow-hidden backdrop-blur-xl shadow-2xl">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto min-w-0 w-full">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-bold bg-slate-950/60">
