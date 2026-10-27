@@ -42,13 +42,16 @@ const api = axios.create({
   },
 });
 
-// Interceptor to attach Authorization header
+// Interceptor to attach Authorization header & target endpoint header for serverless routing
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('imovies_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
       config.headers['x-auth-token'] = token;
+    }
+    if (config.url) {
+      config.headers['x-imovies-endpoint'] = config.url;
     }
     return config;
   },

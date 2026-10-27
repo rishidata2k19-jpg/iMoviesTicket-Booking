@@ -34,7 +34,14 @@ app.use(
     origin: '*',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'x-auth-token',
+      'x-imovies-endpoint',
+      'x-matched-path',
+      'x-vercel-matched-path',
+    ],
   })
 );
 app.options('*', cors());
@@ -44,14 +51,17 @@ app.use(express.urlencoded({ extended: true }));
 
 // URL Normalizer for Vercel Serverless Function rewrites & catch-all routes
 app.use((req, res, next) => {
-  // 1. Check if Vercel provided the real requested path in system headers
+  // 1. Check if client explicitly sent target endpoint in custom header
+  const clientEndpoint = req.headers['x-imovies-endpoint'];
+
+  // 2. Check if Vercel provided the real requested path in system headers
   const matchedPath =
     req.headers['x-matched-path'] ||
     req.headers['x-vercel-matched-path'] ||
     req.headers['x-forwarded-uri'] ||
     req.headers['x-original-uri'];
 
-  // 2. Check if Vercel rewrite passed the endpoint parameter (__endpoint)
+  // 3. Check if Vercel rewrite passed the endpoint parameter (__endpoint or path)
   let endpointFromQuery = null;
   let remainingQuery = '';
   try {
@@ -65,13 +75,20 @@ app.use((req, res, next) => {
     // Ignored in runtimes without URL parsing issues
   }
 
-  if (matchedPath) {
+  if (clientEndpoint) {
+    const clean = clientEndpoint.startsWith('/') ? clientEndpoint : `/${clientEndpoint}`;
+    req.url = clean.startsWith('/api') ? clean : `/api${clean}`;
+  } else if (matchedPath) {
     const query = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
     req.url = matchedPath.includes('?') ? matchedPath : matchedPath + query;
   } else if (endpointFromQuery) {
     const cleanEndpoint = endpointFromQuery.startsWith('/') ? endpointFromQuery : `/${endpointFromQuery}`;
     req.url = cleanEndpoint.startsWith('/api') ? cleanEndpoint : `/api${cleanEndpoint}`;
     if (remainingQuery) req.url += `?${remainingQuery}`;
+  } else if (req.query && req.query.path) {
+    const subpath = Array.isArray(req.query.path) ? req.query.path.join('/') : req.query.path;
+    const cleanSubpath = subpath.startsWith('/') ? subpath : `/${subpath}`;
+    req.url = cleanSubpath.startsWith('/api') ? cleanSubpath : `/api${cleanSubpath}`;
   } else if (req.query && req.query.all) {
     const subpath = Array.isArray(req.query.all) ? req.query.all.join('/') : req.query.all;
     req.url = `/api/${subpath}`;
