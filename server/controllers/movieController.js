@@ -7,38 +7,33 @@ exports.getAllMovies = async (req, res) => {
   try {
     const { genre, language, search, page, feed } = req.query;
 
-    // 1. Fetch custom / manually added movies from MongoDB first
-    const customQuery = {
-      $or: [{ tmdbId: null }, { tmdbId: { $exists: false } }],
-    };
+    // 1. Fetch curated Indian blockbusters, custom and saved movies from MongoDB
+    const dbQuery = {};
 
     if (search && search.trim()) {
       const term = search.trim();
-      customQuery.$and = [
-        {
-          $or: [
-            { movieName: { $regex: term, $options: 'i' } },
-            { description: { $regex: term, $options: 'i' } },
-            { director: { $regex: term, $options: 'i' } },
-            { cast: { $in: [new RegExp(term, 'i')] } },
-          ],
-        },
+      dbQuery.$or = [
+        { movieName: { $regex: term, $options: 'i' } },
+        { description: { $regex: term, $options: 'i' } },
+        { director: { $regex: term, $options: 'i' } },
+        { cast: { $in: [new RegExp(term, 'i')] } },
       ];
     }
 
     if (genre && genre !== 'All') {
-      customQuery.genres = { $in: [new RegExp(genre, 'i')] };
+      dbQuery.genres = { $in: [new RegExp(genre, 'i')] };
     }
 
     if (language && language !== 'All') {
-      customQuery.language = new RegExp(`^${language}$`, 'i');
+      dbQuery.language = new RegExp(`^${language}$`, 'i');
     }
 
-    let customMovies = [];
+    let dbMovies = [];
     try {
-      customMovies = await Movie.find(customQuery).sort({ createdAt: -1 });
+      // Prioritize highest rated releases (Indian blockbusters and featured movies)
+      dbMovies = await Movie.find(dbQuery).sort({ rating: -1, releaseDate: -1 });
     } catch (dbErr) {
-      console.warn('Could not query local custom movies:', dbErr.message);
+      console.warn('Could not query local database movies:', dbErr.message);
     }
 
     // 2. Fetch real-time market movies from TMDB API
@@ -59,26 +54,37 @@ exports.getAllMovies = async (req, res) => {
       if (search && search.trim()) {
         tmdbCachedQuery.movieName = { $regex: search.trim(), $options: 'i' };
       }
-      const cached = await Movie.find(tmdbCachedQuery).sort({ releaseDate: -1 });
+      const cached = await Movie.find(tmdbCachedQuery).sort({ rating: -1, releaseDate: -1 });
       tmdbResult = { movies: cached, totalPages: 1, count: cached.length, page: 1 };
     }
 
-    // 3. Merge custom movies at top, avoiding duplicates
+    // 3. Merge database movies at top, avoiding duplicates
     const seenIds = new Set();
+    const seenTmdbIds = new Set();
+    const seenNames = new Set();
     const combinedMovies = [];
 
-    for (const m of customMovies) {
+    for (const m of dbMovies) {
       const idStr = m._id.toString();
-      if (!seenIds.has(idStr)) {
-        seenIds.add(idStr);
-        combinedMovies.push(m.toObject ? m.toObject() : m);
-      }
+      seenIds.add(idStr);
+      if (m.tmdbId) seenTmdbIds.add(Number(m.tmdbId));
+      if (m.movieName) seenNames.add(m.movieName.toLowerCase().trim());
+      combinedMovies.push(m.toObject ? m.toObject() : m);
     }
 
     for (const m of (tmdbResult.movies || [])) {
       const idStr = m._id ? m._id.toString() : (m.tmdbId ? `tmdb_${m.tmdbId}` : null);
-      if (idStr && !seenIds.has(idStr)) {
-        seenIds.add(idStr);
+      const nameKey = m.movieName ? m.movieName.toLowerCase().trim() : null;
+      const tmdbIdNum = m.tmdbId ? Number(m.tmdbId) : null;
+
+      if (
+        (!idStr || !seenIds.has(idStr)) &&
+        (!tmdbIdNum || !seenTmdbIds.has(tmdbIdNum)) &&
+        (!nameKey || !seenNames.has(nameKey))
+      ) {
+        if (idStr) seenIds.add(idStr);
+        if (tmdbIdNum) seenTmdbIds.add(tmdbIdNum);
+        if (nameKey) seenNames.add(nameKey);
         combinedMovies.push(m);
       }
     }

@@ -98,6 +98,28 @@ const seedInitialData = async () => {
       seededTheatres = await Theatre.find();
     }
 
+    // 2.5 Seed Curated Indian Blockbuster Movies
+    const { indianMovies } = require('./indianMoviesData');
+    console.log('[Database] Synchronizing Indian blockbuster movies...');
+    for (const movieData of indianMovies) {
+      try {
+        const existing = await Movie.findOne({
+          $or: [{ tmdbId: movieData.tmdbId }, { movieName: movieData.movieName }],
+        });
+        let savedMovie;
+        if (existing) {
+          Object.assign(existing, movieData);
+          savedMovie = await existing.save();
+        } else {
+          savedMovie = await Movie.create(movieData);
+        }
+        await tmdbService.ensureShowsForMovie(savedMovie);
+      } catch (err) {
+        console.warn(`[Indian Movie Seed] Error for ${movieData.movieName}:`, err.message);
+      }
+    }
+    console.log(`[Database] Successfully synchronized ${indianMovies.length} Indian blockbuster movies with shows! 🇮🇳`);
+
     // 3. Fetch Live Market Movies directly from TMDB API to populate
     console.log('[TMDB Live Sync] Fetching real-time market movies from TMDB API...');
     try {

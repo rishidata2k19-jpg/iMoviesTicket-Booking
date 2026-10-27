@@ -21,7 +21,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 
 const GENRES = ['All', 'Action', 'Sci-Fi', 'Adventure', 'Drama', 'Thriller', 'Animation', 'Horror', 'Comedy'];
-const LANGUAGES = ['All', 'English', 'Hindi', 'Spanish', 'Japanese', 'Korean'];
+const LANGUAGES = ['All', 'Hindi', 'English', 'Telugu', 'Tamil', 'Malayalam', 'Kannada', 'Spanish', 'Korean'];
 
 const Home = () => {
   const { isAuthenticated } = useAuth();
