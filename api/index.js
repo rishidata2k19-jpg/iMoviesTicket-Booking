@@ -61,19 +61,8 @@ app.use((req, res, next) => {
     req.headers['x-forwarded-uri'] ||
     req.headers['x-original-uri'];
 
-  // 3. Check if Vercel rewrite passed the endpoint parameter (__endpoint or path)
-  let endpointFromQuery = null;
-  let remainingQuery = '';
-  try {
-    const urlObj = new URL(req.url, 'http://localhost');
-    endpointFromQuery = urlObj.searchParams.get('__endpoint');
-    if (endpointFromQuery) {
-      urlObj.searchParams.delete('__endpoint');
-      remainingQuery = urlObj.searchParams.toString();
-    }
-  } catch (e) {
-    // Ignored in runtimes without URL parsing issues
-  }
+  // 3. Check if Vercel query parameters passed route segments
+  const queryParam = req.query?.match || req.query?.path || req.query?.all || req.query?.slug;
 
   if (clientEndpoint) {
     const clean = clientEndpoint.startsWith('/') ? clientEndpoint : `/${clientEndpoint}`;
@@ -81,17 +70,16 @@ app.use((req, res, next) => {
   } else if (matchedPath) {
     const query = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
     req.url = matchedPath.includes('?') ? matchedPath : matchedPath + query;
-  } else if (endpointFromQuery) {
-    const cleanEndpoint = endpointFromQuery.startsWith('/') ? endpointFromQuery : `/${endpointFromQuery}`;
-    req.url = cleanEndpoint.startsWith('/api') ? cleanEndpoint : `/api${cleanEndpoint}`;
-    if (remainingQuery) req.url += `?${remainingQuery}`;
-  } else if (req.query && req.query.path) {
-    const subpath = Array.isArray(req.query.path) ? req.query.path.join('/') : req.query.path;
+  } else if (queryParam) {
+    const subpath = Array.isArray(queryParam) ? queryParam.join('/') : queryParam;
     const cleanSubpath = subpath.startsWith('/') ? subpath : `/${subpath}`;
-    req.url = cleanSubpath.startsWith('/api') ? cleanSubpath : `/api${cleanSubpath}`;
-  } else if (req.query && req.query.all) {
-    const subpath = Array.isArray(req.query.all) ? req.query.all.join('/') : req.query.all;
-    req.url = `/api/${subpath}`;
+    if (req.url.startsWith('/api/auth') || req.originalUrl?.startsWith('/api/auth')) {
+      req.url = `/api/auth${cleanSubpath}`;
+    } else if (req.url.startsWith('/api/movie') || req.originalUrl?.startsWith('/api/movie')) {
+      req.url = `/api/movie${cleanSubpath}`;
+    } else {
+      req.url = cleanSubpath.startsWith('/api') ? cleanSubpath : `/api${cleanSubpath}`;
+    }
   } else if (
     req.originalUrl &&
     req.originalUrl !== '/api' &&
