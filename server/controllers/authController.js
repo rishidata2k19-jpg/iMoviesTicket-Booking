@@ -79,9 +79,10 @@ exports.registerUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: existingUser.email === cleanEmail
-          ? 'An account with this email already exists.'
-          : 'Username is already taken.',
+        message:
+          existingUser.email === cleanEmail
+            ? 'An account with this email already exists. Please Sign In instead.'
+            : 'Username is already taken. Please choose another username.',
       });
     }
 

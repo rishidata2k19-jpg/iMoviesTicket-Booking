@@ -56,16 +56,26 @@ export const AuthProvider = ({ children }) => {
 
   // Strictly regular user registration; admin creation is restricted to internal admin tools
   const register = async (username, email, password) => {
-    const res = await api.post('/auth/register', { username, email, password });
-    if (res.data.success) {
-      const userData = res.data.user;
-      setToken(res.data.token);
-      setUser(userData);
-      localStorage.setItem('imovies_token', res.data.token);
-      localStorage.setItem('imovies_user', JSON.stringify(userData));
-      return { success: true, user: userData };
+    try {
+      const res = await api.post('/auth/register', { username, email, password });
+      if (res.data.success) {
+        const userData = res.data.user;
+        setToken(res.data.token);
+        setUser(userData);
+        localStorage.setItem('imovies_token', res.data.token);
+        localStorage.setItem('imovies_user', JSON.stringify(userData));
+        return { success: true, user: userData };
+      }
+      return { success: false, message: res.data.message || 'Registration failed.' };
+    } catch (err) {
+      const errorMsg =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        (typeof err.response?.data === 'string' && !err.response.data.includes('<!DOCTYPE') && err.response.data) ||
+        err.message ||
+        'Registration failed.';
+      return { success: false, message: errorMsg };
     }
-    return { success: false, message: res.data.message };
   };
 
   const logout = () => {

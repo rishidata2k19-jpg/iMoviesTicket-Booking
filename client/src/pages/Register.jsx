@@ -35,22 +35,19 @@ const Register = () => {
     setSubmitting(true);
     try {
       const res = await register(username.trim(), email.trim(), password);
-      if (res.success) {
+      if (res && res.success) {
         toast.success(`Welcome to iMovies, ${res.user.username}!`);
         navigate('/home');
       } else {
-        toast.error(res.message || 'Registration failed.');
+        toast.error(res?.message || 'Registration failed.');
       }
     } catch (err) {
-      if (!err.response) {
-        toast.error('Unable to connect to backend server. Please verify your backend is running and VITE_API_URL is configured in your deployment settings.');
-      } else if (err.response.status === 404) {
-        toast.error('API endpoint not found (404). Please ensure VITE_API_URL points to your deployed backend API URL.');
-      } else if (err.response.status === 503) {
-        toast.error(err.response.data?.message || 'Database service is currently unavailable. Please check MONGO_URI in backend environment.');
-      } else {
-        toast.error(err.response.data?.message || 'Registration failed.');
-      }
+      const msg =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        (typeof err.response?.data === 'string' && !err.response.data.includes('<!DOCTYPE') && err.response.data) ||
+        'Registration failed. Please check your inputs.';
+      toast.error(msg);
     } finally {
       setSubmitting(false);
     }
