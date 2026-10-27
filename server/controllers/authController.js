@@ -93,6 +93,19 @@ exports.registerUser = async (req, res) => {
     });
   } catch (error) {
     console.error('Register error:', error);
+    if (error.code === 11000) {
+      const isEmail = error.message && error.message.includes('email');
+      return res.status(400).json({
+        success: false,
+        message: isEmail
+          ? 'An account with this email already exists.'
+          : 'Username is already taken. Please choose another username.',
+      });
+    }
+    if (error.name === 'ValidationError') {
+      const firstMsg = Object.values(error.errors || {})[0]?.message || 'Validation failed.';
+      return res.status(400).json({ success: false, message: firstMsg });
+    }
     return res.status(500).json({ success: false, message: error.message || 'Server error during registration.' });
   }
 };
@@ -201,6 +214,19 @@ exports.registerAdmin = async (req, res) => {
     });
   } catch (error) {
     console.error('Admin Register error:', error);
+    if (error.code === 11000) {
+      const isEmail = error.message && error.message.includes('email');
+      return res.status(400).json({
+        success: false,
+        message: isEmail
+          ? 'An admin with this email already exists.'
+          : 'Admin username is already taken. Please choose another username.',
+      });
+    }
+    if (error.name === 'ValidationError') {
+      const firstMsg = Object.values(error.errors || {})[0]?.message || 'Validation failed.';
+      return res.status(400).json({ success: false, message: firstMsg });
+    }
     return res.status(500).json({ success: false, message: error.message || 'Server error during admin registration.' });
   }
 };
