@@ -44,8 +44,42 @@ app.use(express.urlencoded({ extended: true }));
 
 // URL Normalizer for Vercel Serverless Function rewrites & catch-all routes
 app.use((req, res, next) => {
-  if (
+  // 1. Check if Vercel provided the real requested path in system headers
+  const matchedPath =
+    req.headers['x-matched-path'] ||
+    req.headers['x-vercel-matched-path'] ||
+    req.headers['x-forwarded-uri'] ||
+    req.headers['x-original-uri'];
+
+  // 2. Check if Vercel rewrite passed the endpoint parameter (__endpoint)
+  let endpointFromQuery = null;
+  let remainingQuery = '';
+  try {
+    const urlObj = new URL(req.url, 'http://localhost');
+    endpointFromQuery = urlObj.searchParams.get('__endpoint');
+    if (endpointFromQuery) {
+      urlObj.searchParams.delete('__endpoint');
+      remainingQuery = urlObj.searchParams.toString();
+    }
+  } catch (e) {
+    // Ignored in runtimes without URL parsing issues
+  }
+
+  if (matchedPath) {
+    const query = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
+    req.url = matchedPath.includes('?') ? matchedPath : matchedPath + query;
+  } else if (endpointFromQuery) {
+    const cleanEndpoint = endpointFromQuery.startsWith('/') ? endpointFromQuery : `/${endpointFromQuery}`;
+    req.url = cleanEndpoint.startsWith('/api') ? cleanEndpoint : `/api${cleanEndpoint}`;
+    if (remainingQuery) req.url += `?${remainingQuery}`;
+  } else if (req.query && req.query.all) {
+    const subpath = Array.isArray(req.query.all) ? req.query.all.join('/') : req.query.all;
+    req.url = `/api/${subpath}`;
+  } else if (
     req.originalUrl &&
+    req.originalUrl !== '/api' &&
+    req.originalUrl !== '/api/index' &&
+    req.originalUrl !== '/api/index.js' &&
     (req.originalUrl.startsWith('/api') ||
       req.originalUrl.startsWith('/auth') ||
       req.originalUrl.startsWith('/movie') ||
@@ -56,10 +90,15 @@ app.use((req, res, next) => {
       req.originalUrl.startsWith('/admin'))
   ) {
     req.url = req.originalUrl;
-  } else if (req.query && req.query.all) {
-    const subpath = Array.isArray(req.query.all) ? req.query.all.join('/') : req.query.all;
-    req.url = `/api/${subpath}`;
   }
+
+  // Strip accidental function entry prefix if present
+  if (req.url.startsWith('/api/index.js/')) {
+    req.url = req.url.replace('/api/index.js/', '/api/');
+  } else if (req.url === '/api/index.js' || req.url === '/api/index') {
+    req.url = '/api';
+  }
+
   next();
 });
 
@@ -103,6 +142,8 @@ const handleHealth = (req, res) => {
 };
 app.get('/api/health', handleHealth);
 app.get('/health', handleHealth);
+app.get('/api', handleHealth);
+app.get('/', handleHealth);
 
 const MONGO_URI =
   process.env.MONGO_URI ||
