@@ -1,11 +1,25 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 const User = require('../models/userModel');
 const Admin = require('../models/adminModel');
 const Booking = require('../models/bookingModel');
 const Movie = require('../models/movieModel');
 const Show = require('../models/showModel');
 const { JWT_SECRET } = require('../middlewares/fetchUser');
+
+// Helper to check MongoDB connection status before handling requests
+const checkDbConnection = (res) => {
+  if (mongoose.connection.readyState !== 1) {
+    res.status(503).json({
+      success: false,
+      message:
+        'Database connection is unavailable. Please verify that MONGO_URI is correctly configured in your deployment environment variables.',
+    });
+    return false;
+  }
+  return true;
+};
 
 // Helper to generate JWT token
 const generateToken = (payload) => {
@@ -15,29 +29,34 @@ const generateToken = (payload) => {
 // 1. User Register
 exports.registerUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    if (!checkDbConnection(res)) return;
 
-    if (!username || !email || !password) {
+    const { username, email, password } = req.body;
+    const cleanUsername = (username || '').trim();
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const cleanPassword = password ? String(password) : '';
+
+    if (!cleanUsername || !cleanEmail || !cleanPassword) {
       return res.status(400).json({ success: false, message: 'Please provide all required fields.' });
     }
 
-    if (username.length < 3 || username.length > 20) {
+    if (cleanUsername.length < 3 || cleanUsername.length > 20) {
       return res.status(400).json({ success: false, message: 'Username must be between 3 and 20 characters.' });
     }
 
-    if (password.length < 6) {
+    if (cleanPassword.length < 6) {
       return res.status(400).json({ success: false, message: 'Password must be at least 6 characters.' });
     }
 
     // Check existing
     const existingUser = await User.findOne({
-      $or: [{ email: email.toLowerCase() }, { username }],
+      $or: [{ email: cleanEmail }, { username: cleanUsername }],
     });
 
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: existingUser.email === email.toLowerCase()
+        message: existingUser.email === cleanEmail
           ? 'An account with this email already exists.'
           : 'Username is already taken.',
       });
@@ -45,11 +64,11 @@ exports.registerUser = async (req, res) => {
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(cleanPassword, salt);
 
     const newUser = await User.create({
-      username,
-      email: email.toLowerCase(),
+      username: cleanUsername,
+      email: cleanEmail,
       password: hashedPassword,
       role: 'user',
     });
@@ -81,18 +100,27 @@ exports.registerUser = async (req, res) => {
 // 2. User Login
 exports.loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    if (!checkDbConnection(res)) return;
 
-    if (!email || !password) {
+    const { email, username, password } = req.body;
+    const identifier = (email || username || '').trim();
+    const cleanEmail = identifier.toLowerCase();
+    const cleanPassword = password ? String(password) : '';
+
+    if (!identifier || !cleanPassword) {
       return res.status(400).json({ success: false, message: 'Please provide email and password.' });
     }
 
-    const user = await User.findOne({ email: email.toLowerCase() });
+    // Allow login by email OR username for maximum user convenience
+    const user = await User.findOne({
+      $or: [{ email: cleanEmail }, { username: identifier }],
+    });
+
     if (!user) {
       return res.status(400).json({ success: false, message: 'Invalid credentials. User not found.' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(cleanPassword, user.password);
     if (!isMatch) {
       return res.status(400).json({ success: false, message: 'Invalid email or password.' });
     }
@@ -124,14 +152,19 @@ exports.loginUser = async (req, res) => {
 // 3. Admin Register
 exports.registerAdmin = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    if (!checkDbConnection(res)) return;
 
-    if (!username || !email || !password) {
+    const { username, email, password } = req.body;
+    const cleanUsername = (username || '').trim();
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const cleanPassword = password ? String(password) : '';
+
+    if (!cleanUsername || !cleanEmail || !cleanPassword) {
       return res.status(400).json({ success: false, message: 'Please provide all admin credentials.' });
     }
 
     const existingAdmin = await Admin.findOne({
-      $or: [{ email: email.toLowerCase() }, { username }],
+      $or: [{ email: cleanEmail }, { username: cleanUsername }],
     });
 
     if (existingAdmin) {
@@ -139,11 +172,11 @@ exports.registerAdmin = async (req, res) => {
     }
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(cleanPassword, salt);
 
     const newAdmin = await Admin.create({
-      username,
-      email: email.toLowerCase(),
+      username: cleanUsername,
+      email: cleanEmail,
       password: hashedPassword,
       role: 'admin',
     });
@@ -175,18 +208,27 @@ exports.registerAdmin = async (req, res) => {
 // 4. Admin Login
 exports.loginAdmin = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    if (!checkDbConnection(res)) return;
 
-    if (!email || !password) {
+    const { email, username, password } = req.body;
+    const identifier = (email || username || '').trim();
+    const cleanEmail = identifier.toLowerCase();
+    const cleanPassword = password ? String(password) : '';
+
+    if (!identifier || !cleanPassword) {
       return res.status(400).json({ success: false, message: 'Please provide email and password.' });
     }
 
-    const admin = await Admin.findOne({ email: email.toLowerCase() });
+    // Allow admin login by email OR admin username
+    const admin = await Admin.findOne({
+      $or: [{ email: cleanEmail }, { username: identifier }],
+    });
+
     if (!admin) {
       return res.status(400).json({ success: false, message: 'Admin account not found.' });
     }
 
-    const isMatch = await bcrypt.compare(password, admin.password);
+    const isMatch = await bcrypt.compare(cleanPassword, admin.password);
     if (!isMatch) {
       return res.status(400).json({ success: false, message: 'Invalid admin credentials.' });
     }

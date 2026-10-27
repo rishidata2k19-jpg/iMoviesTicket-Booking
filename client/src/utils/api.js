@@ -1,10 +1,34 @@
 import axios from 'axios';
 
+/**
+ * Dynamically resolves the API base URL based on environment or deployment mode.
+ * In production/deployment, VITE_API_URL can point to the remote backend service
+ * (e.g. https://imovies-backend.onrender.com).
+ * In development or monolithic deployments, defaults to '/api'.
+ */
+export const getApiBaseURL = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl && typeof envUrl === 'string' && envUrl.trim()) {
+    const trimmed = envUrl.trim().replace(/\/+$/, '');
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+  }
+  return '/api';
+};
+
+export const getBackendURL = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl && typeof envUrl === 'string' && envUrl.trim()) {
+    return envUrl.trim().replace(/\/api\/?$/, '').replace(/\/+$/, '');
+  }
+  return window.location.origin;
+};
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: getApiBaseURL(),
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 // Interceptor to attach Authorization header

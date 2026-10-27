@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import io from 'socket.io-client';
 import confetti from 'canvas-confetti';
+import { getBackendURL } from '../utils/api';
 import { 
   Film, 
   ArrowLeft, 
@@ -94,8 +95,9 @@ const SeatMap = () => {
 
   // 2. Real-Time Socket.io Connection
   useEffect(() => {
-    // Establish WebSocket connection
-    const socket = io('/', { transports: ['websocket', 'polling'] });
+    // Establish WebSocket connection to backend server
+    const backendUrl = getBackendURL();
+    const socket = io(backendUrl, { transports: ['websocket', 'polling'] });
     socketRef.current = socket;
 
     socket.on('connect', () => {

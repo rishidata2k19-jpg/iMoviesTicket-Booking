@@ -33,7 +33,15 @@ const Login = () => {
         toast.error(res.message || 'Login failed. Please check credentials.');
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Login failed. Please verify your credentials.');
+      if (!err.response) {
+        toast.error('Unable to connect to backend server. Please verify your backend is running and VITE_API_URL is configured in your deployment settings.');
+      } else if (err.response.status === 404) {
+        toast.error('API endpoint not found (404). Please ensure VITE_API_URL points to your deployed backend API URL.');
+      } else if (err.response.status === 503) {
+        toast.error(err.response.data?.message || 'Database service is currently unavailable. Please check MONGO_URI in backend environment.');
+      } else {
+        toast.error(err.response.data?.message || 'Login failed. Please verify your credentials.');
+      }
     } finally {
       setSubmitting(false);
     }

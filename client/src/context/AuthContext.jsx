@@ -26,8 +26,12 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('imovies_user', JSON.stringify(res.data.user));
           }
         } catch (err) {
-          console.warn('Session expired or invalid token');
-          logout();
+          if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+            console.warn('Session expired or invalid token');
+            logout();
+          } else {
+            console.warn('Backend server temporarily unreachable or waking up:', err.message);
+          }
         }
       }
       setLoading(false);
