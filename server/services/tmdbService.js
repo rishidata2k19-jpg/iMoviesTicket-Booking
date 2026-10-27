@@ -389,4 +389,5 @@ module.exports = {
   fetchMovieDetailsFromTMDB,
   searchMoviesFromTMDB,
   upsertMovieToDatabase,
+  ensureShowsForMovie,
 };

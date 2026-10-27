@@ -137,9 +137,11 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Connect to MongoDB with graceful fallback
+// Connect to MongoDB Atlas
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/imovies_db';
+const MONGO_URI =
+  process.env.MONGO_URI ||
+  'mongodb+srv://rishidata2k19_db_user:d3KfjFuJxXHL32GE@cluster0.xndy3pu.mongodb.net/imovies_db?retryWrites=true&w=majority';
 
 // Persistent MongoMemoryServer instance in module scope to prevent GC process termination
 let mongodInstance = null;
