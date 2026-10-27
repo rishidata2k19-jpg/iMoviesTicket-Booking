@@ -1,8 +1,17 @@
 const path = require('path');
+const fs = require('fs');
 
-// Ensure module resolution searches both root and server node_modules
+// Dynamically locate server directory whether invoked from root or client/
+let serverDir = path.join(__dirname, '../server');
+if (!fs.existsSync(serverDir)) {
+  serverDir = path.join(__dirname, '../../server');
+}
+
+// Ensure module resolution searches server, root, and client node_modules
 if (module.paths) {
-  module.paths.push(path.join(__dirname, '../server/node_modules'));
+  module.paths.push(path.join(serverDir, 'node_modules'));
+  module.paths.push(path.join(__dirname, '../node_modules'));
+  module.paths.push(path.join(__dirname, '../../node_modules'));
 }
 
 const express = require('express');
@@ -11,19 +20,19 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 // Load environment variables
-dotenv.config({ path: path.join(__dirname, '../server/.env') });
+dotenv.config({ path: path.join(serverDir, '.env') });
 dotenv.config();
 
-const authRoutes = require('../server/routes/authRoutes');
-const movieRoutes = require('../server/routes/movieRoutes');
-const theatreRoutes = require('../server/routes/theatreRoutes');
-const showRoutes = require('../server/routes/showRoutes');
-const bookingRoutes = require('../server/routes/bookingRoutes');
-const favoriteRoutes = require('../server/routes/favoriteRoutes');
-const reviewRoutes = require('../server/routes/reviewRoutes');
-const paymentRoutes = require('../server/routes/paymentRoutes');
-const adminRoutes = require('../server/routes/adminRoutes');
-const { seedInitialData } = require('../server/utils/seedData');
+const authRoutes = require(path.join(serverDir, 'routes/authRoutes'));
+const movieRoutes = require(path.join(serverDir, 'routes/movieRoutes'));
+const theatreRoutes = require(path.join(serverDir, 'routes/theatreRoutes'));
+const showRoutes = require(path.join(serverDir, 'routes/showRoutes'));
+const bookingRoutes = require(path.join(serverDir, 'routes/bookingRoutes'));
+const favoriteRoutes = require(path.join(serverDir, 'routes/favoriteRoutes'));
+const reviewRoutes = require(path.join(serverDir, 'routes/reviewRoutes'));
+const paymentRoutes = require(path.join(serverDir, 'routes/paymentRoutes'));
+const adminRoutes = require(path.join(serverDir, 'routes/adminRoutes'));
+const { seedInitialData } = require(path.join(serverDir, 'utils/seedData'));
 
 const app = express();
 
